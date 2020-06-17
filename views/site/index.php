@@ -16,7 +16,7 @@ $this->title = '';//Por definir
 
             </div>
             <div class="col-md-8 col-md-8">
-                <img class="imgBienvenida img-responsive" src="images/gobiernoestado.png" alt="" style="margin:0 auto;">
+
             </div>
             <div class="col-md-2">
 

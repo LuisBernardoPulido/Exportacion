@@ -42,21 +42,13 @@ if (Yii::$app->controller->action->id === 'login') {
             }
         </style>
     </head>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue layout-top-nav">
     <?php $this->beginBody() ?>
     <div class="wrapper">
-
         <?= $this->render(
             'header.php',
             ['directoryAsset' => $directoryAsset]
         ) ?>
-
-        <?= $this->render(
-            'left.php',
-            ['directoryAsset' => $directoryAsset]
-        )
-        ?>
-
         <?= $this->render(
             'content.php',
             ['content' => $content, 'directoryAsset' => $directoryAsset]
