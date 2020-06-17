@@ -1,0 +1,1 @@
+ALTER TABLE `p03_gr` CHANGE `c18_id` `p03_folio` VARCHAR(30) NULL DEFAULT NULL COMMENT 'Folio dictamen';

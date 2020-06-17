@@ -1,0 +1,1 @@
+ALTER TABLE `p03_gr` ADD `p03_otro_motivo` VARCHAR(100) NULL COMMENT 'Solo si se selecciona el motivo Otros' AFTER `c07_id`;

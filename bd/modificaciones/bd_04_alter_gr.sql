@@ -1,0 +1,1 @@
+ALTER TABLE `r05_seleccion_previa_aretes` ADD `r05_gr` INT(11) NULL DEFAULT NULL AFTER `r05_vc`;

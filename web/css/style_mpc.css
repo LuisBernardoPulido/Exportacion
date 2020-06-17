@@ -1,0 +1,248 @@
+.imgBienvenida{
+    width: 74%;
+    height: 45%;
+}
+@media (max-width: 560px){
+    .imgBienvenida{
+        content: url("../images/gobiernoestado.png");
+    }
+}
+
+.logo_login{
+    width: 30%;
+    height: 10%;
+}
+@media (max-width: 90px){
+    .logo_login{
+        content: url("../images/gobiernoestado.png");
+    }
+}
+
+.secampo_login{
+    width: 50%;
+    height: 10%;
+}
+@media (max-width: 200px){
+    .secampo_login{
+        content: url("../images/gobiernoestado.png");
+    }
+}
+.raw-logos{
+    background-color: white;
+    height: 17.1%;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+@media (max-height: 1000px){
+    .raw-logos{
+
+    }
+}
+.login_test{
+    margin: 5% auto;
+}
+.vertical-center {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#login {
+    background: url("../images/campo_fondo6_opaca.png") no-repeat center center fixed;
+    -webkit-background-size: cover; /* For WebKit*/
+    -moz-background-size: cover;    /* Mozilla*/
+    -o-background-size: cover;      /* Opera*/
+    background-size: cover;         /* Generic*/
+    overflow: hidden;
+}
+#negritas{
+    color: black;
+}
+.login-box-back{
+    background: rgba(246,246,246,0.6) !important;
+}
+
+/*Estilos Generales*/
+.button {
+    background:#942626;
+    color:#ffffff;
+    display:inline-block;
+    font-size:1.20em;
+    padding:8px 0;
+    text-align:center;
+    width:180px;
+    text-decoration:none;
+    box-shadow:0px 3px 0px #222d32;
+}
+.button span {
+    margin-right:15px;
+}
+.button.radius {
+    border-radius:50px;
+}
+/*Efectos, Hover*/
+.button:hover {
+    box-shadow:0px 0px 0px;
+    padding-top:7px;
+    color: #ffffff;
+}
+
+
+.button_crear {
+    display:inline-block;
+    font-size:1.20em;
+    padding:9px 0;
+    text-align:center;
+    width:120px;
+    text-decoration:none;
+    box-shadow:0px 3px 0px #222d32;
+    margin-bottom: 10px;
+}
+
+.button_crear_largo {
+    display:inline-block;
+    font-size:1.20em;
+    padding:9px 0;
+    text-align:center;
+    width:200px;
+    text-decoration:none;
+    box-shadow:0px 3px 0px #222d32;
+    margin-bottom: 10px;
+}
+button_crear_caratula {
+    display:inline-block;
+    font-size:1.20em;
+    padding:9px 0;
+    text-align:center;
+    width:220px;
+    text-decoration:none;
+    box-shadow:0px 3px 0px #222d32;
+    margin-bottom: 10px;
+}
+.btn-primary.radius {
+    border-radius:50px;
+}
+.button_crear:hover {
+    box-shadow:0px 0px 0px;
+    padding-top:7px;
+    color: #ffffff;
+}
+#color_header{
+    background-color: #222d32;
+}
+
+#panel-primary-mpc{
+    border-color: #ccdbe2;
+}
+#panel-heading-mpc{
+    background-color: #942626;
+    border-color: #ccdbe2;
+}
+
+table.detail-view th {
+    width: 35%;
+}
+
+table.detail-view td {
+    width: 65%;
+}
+.ocultar{
+    display: none;
+}
+#panel-info-mpc {
+    border-color: #E0E0E0;
+}
+#panel-info-header{
+    color: black;
+    background-color: #E0E0E0;
+    border-color: #E0E0E0;
+}
+#panel-info-tb {
+    border-color: #E0E0E0;
+}
+#panel-info-br {
+    border-color: #E0E0E0;
+}
+#panel-info-cv {
+    border-color: #E0E0E0;
+}
+
+.button_crear_dos {
+    display:inline-block;
+    font-size:1.20em;
+    padding:9px 0;
+    text-align:center;
+    width:120px;
+    text-decoration:none;
+    box-shadow:0px 3px 0px #16a085;
+    margin-bottom: 10px;
+}
+
+.button_crear_dos:hover {
+    box-shadow:0px 0px 0px;
+    padding-top:7px;
+    color: #ffffff;
+}
+.iconos{
+    font-size: 30px;
+}
+.centrados{
+    align-content: center;
+}
+table.table-bordered>tbody>tr:hover{
+    color: #fff;
+    background-color: #7f8c8d !important;
+}
+.scrolles{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 500px;
+}
+.contactous{
+    margin: auto;
+    width: 50%;
+    border: 3px solid green;
+    padding: 10px;
+}
+.scrollbar
+{
+    margin-left: 30px;
+    float: left;
+    height: 100%;
+    width: 100%;
+    background: #F5F5F5;
+    overflow-y: scroll;
+    margin-bottom: 25px;
+}
+.force-overflow
+{
+    min-height: 450px;
+}
+
+#style-1::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+#style-1::-webkit-scrollbar
+{
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+#style-1::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #555;
+}
+
+
+
+
+
+
+

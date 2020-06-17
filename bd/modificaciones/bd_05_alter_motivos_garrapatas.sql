@@ -1,0 +1,1 @@
+INSERT INTO `c07_motivo_prueba` (`c07_id`, `c07_descripcion`, `c07_tipo`, `c07_candado`) VALUES (NULL, 'SACRIFICIO', '3', '1'), (NULL, 'EXPORTACIÓN', '3', '1'), (NULL, 'PIE DE CRIA', '3', '1'), (NULL, 'REPASTO', '3', '1'), (NULL, 'ENGORDA EN CORRAL', '3', '1'), (NULL, 'FERIA-EXPOSICIÓN', '3', '1'), (NULL, 'OTROS', '3', '1')
