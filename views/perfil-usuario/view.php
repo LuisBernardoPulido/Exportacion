@@ -41,19 +41,16 @@ $this->beginBlock('content-header');
             'a02_amaterno',
             'a02_email:email',
             'a02_telfono',
-            'a02_direccion',
-            'a02_activo',
-            //'a02_usuAlta',
             [
                 'attribute'=>'a02_usuAlta',
-                'value' => $model->a02_usuAlta?app\models\Users::findIdentity($model->a02_usuAlta)->username:'',
+                'value' =>'Pedro Loyola 544, Zona Centro',
             ],
+
             [
                 'attribute'=>'a02_fecAlta',
                 'value' => $model->a02_fecAlta,
             ],
 
-            //'a02_usuMod',
             [
                 'attribute'=>'a02_usuMod',
                 'value' => !$model->a02_usuMod ? '': app\models\Users::findIdentity($model->a02_usuMod)->username
@@ -65,8 +62,69 @@ $this->beginBlock('content-header');
         ],
     ]) ?>
 
+    <div class="panel panel-primary" id="panel-primary-mpc">
+        <div class="panel-heading" id="panel-heading-mpc">Mis unidades</div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Responsive Hover Table</h3>
+
+                            <div class="box-tools">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+
+                                    <div class="input-group-btn">
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body table-responsive no-padding">
+                            <table class="table table-hover">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Unidad</th>
+                                    <th>Clave</th>
+                                    <th>Estatus</th>
+                                    <th>Municipio</th>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>EL CAPULIN</td>
+                                    <td>14-019-0030-287</td>
+                                    <td><span class="label label-success">Vigente</span></td>
+                                    <td>Zacatecas</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Tilachetes, Toriles y Jomate</td>
+                                    <td>14-031-1242-002</td>
+                                    <td><span class="label label-success">Vigente</span></td>
+                                    <td>Zacatecas.</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>El mezquital</td>
+                                    <td>14-031-1242-003</td>
+                                    <td><span class="label label-success">Vigente</span></td>
+                                    <td>Zacatecas</td>
+                                </tr>
+
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
     </div>
 </div>
+

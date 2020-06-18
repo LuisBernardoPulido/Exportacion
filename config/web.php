@@ -146,6 +146,7 @@ $config = [
             'site/local-storange',
             'site/retrieve',
             'debug/*',
+            'solicitudes/*',
 
 
             'some-controller/some-action',
@@ -166,5 +167,6 @@ if (YII_ENV_DEV) {
         'class' => 'yii\gii\Module',
     ];
 }
+
 
 return $config;
