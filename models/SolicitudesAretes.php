@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\data\ActiveDataProvider;
 
 /**
  * This is the model class for table "r27_solicitud_aretes".
@@ -63,6 +64,17 @@ class SolicitudesAretes extends \yii\db\ActiveRecord
      */
     public function getP09()
     {
-        return $this->hasOne(P09Solicitudes::className(), ['p09_id' => 'p09_id']);
+        return $this->hasOne(Solicitudes::className(), ['p09_id' => 'p09_id']);
+    }
+
+    public static function getAretes($id){
+        $aretes = SolicitudesAretes::find()
+            ->where('p09_id=:id', [':id'=>'1']);
+
+        $dataprovider = new ActiveDataProvider([
+            'query' => $aretes,
+            'pagination' => ['pageSize' => 5000],
+        ]);
+        return $dataprovider;
     }
 }

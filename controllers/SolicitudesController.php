@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\Aretes;
+use app\models\SolicitudesAretes;
 use Yii;
 use app\models\Solicitudes;
 use app\models\search\SolicitudesSearch;
@@ -65,11 +67,14 @@ class SolicitudesController extends Controller
     {
         $model = new Solicitudes();
 
+        $aretes = SolicitudesAretes::getAretes($model->p09_id);
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->p09_id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'aretes' => $aretes,
             ]);
         }
     }

@@ -9,6 +9,7 @@ use yii\widgets\ActiveForm;
 
 
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/mensaje_guardado.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/control_resenaas.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/control_enter.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/control_del_grid.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/control_scroll.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
@@ -87,12 +88,7 @@ if($model->isNewRecord){
 
 
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
 
-                            <span class="help-block" id="error_mensaje" style="color: #FF0000;margin-left:15px; display: none">Upp ya reseñada</span>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -127,17 +123,13 @@ if($model->isNewRecord){
                                             <div class="col-xs-4">
                                                 <label for="por_arete">Arete</label>
                                             </div>
-
-
                                         </div>
 
                                         <div class="row">
                                             <div class="col-xs-10">
                                                 <input class="form-control" maxlength="10" onfocusout="buscarArete()" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" id="por_arete" placeholder="Ej. 3209800001"  autofocus>
                                             </div>
-
                                         </div>
-
                                     </div>
 
                                     <div class="col-xs-4">
@@ -183,115 +175,84 @@ if($model->isNewRecord){
                     <div class="row">
 
                         <div class="col-xs-12">
-                            <?php \yii\widgets\Pjax::begin(['id' => 'tablat']); ?>
-                            <?= \yii\grid\GridView::widget([
-                                'dataProvider' => $aretes,
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="box">
+                                        <div class="box-header">
+                                            <h3 class="box-title">Hover Data Table</h3>
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body">
+                                            <table id="example2" class="table table-bordered table-hover">
+                                                <thead>
+                                                <tr>
+                                                    <th>Arete</th>
+                                                    <th>Municipio</th>
+                                                    <th>UPP</th>
+                                                    <th>Dictamen TB</th>
+                                                    <th>Guía de transito</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>327687245</td>
+                                                    <td>Fresnillo
+                                                    </td>
+                                                    <td>32-033-1181-001</td>
+                                                    <td> 38787765</td>
+                                                    <td><input type="text" ></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>327687245</td>
+                                                    <td>Zacatecas
+                                                    </td>
+                                                    <td>32-033-1181-00</td>
+                                                    <td>38787763</td>
+                                                    <td><input type="text" ></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>327687245</td>
+                                                    <td>Valparaiso
+                                                    </td>
+                                                    <td>32-049-0350-212</td>
+                                                    <td>22787765</td>
+                                                    <td><input type="text" ></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>327687245</td>
+                                                    <td>Fresnillo
+                                                    </td>
+                                                    <td>32-033-1181-00</td>
+                                                    <td>45787765</td>
+                                                    <td><input type="text" ></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>327687245</td>
+                                                    <td>Fresnillo</td>
+                                                    <td>32-033-1194-001</td>
+                                                    <td>38787765</td>
+                                                    <td><input type="text" ></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>327687245</td>
+                                                    <td>Fresnillo</td>
+                                                    <td>32-015-1081-001</td>
+                                                    <td>38787765</td>
+                                                    <td><input type="text" ></td>
+                                                </tr>
 
 
-                                'columns' => [
-                                    [
-                                        'class' => 'yii\grid\SerialColumn',
-                                        'contentOptions'=>[
-                                            "width"=>"3%",
-                                        ],
-                                    ],
 
-                                    [
-                                        'label'=>'Arete',
-                                        'contentOptions'=>[
-                                            "align"=>"center",
-                                            "width"=>"10%",
-                                        ],
-                                        'value'=>function($data){
-                                            /*return Yii::$app->db
-                                                ->createCommand('SELECT SUBSTRING(r02_numero,3,10) FROM r02_aretes WHERE r02_id=:id')
-                                                ->bindValue(':id', \app\models\Aretes::findOne($data->r02_id)->r02_id)->queryScalar(); ;*/
-                                            return \app\models\Aretes::findOne($data->r02_id)->r02_numero;
-                                        },
+                                                </tbody>
 
-                                    ],
+                                            </table>
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+                                    <!-- /.box -->
 
-                                    [
-                                        'label' => 'Edad',
-                                        'contentOptions'=>[
-                                            "width"=>"10%",
-                                            "align"=>"center",
-                                        ],
-                                        'value' => function($aretes) {
-                                            if(\app\models\Aretes::findOne($aretes->r02_id)->p01_isfechadefinitiva){
-                                                return \app\models\Aretes::findOne($aretes->r02_id)->r02_edad.
-                                                    Html::hiddenInput("edad[]", \app\models\Aretes::findOne($aretes->r02_id)->r02_edad).
-                                                    Html::hiddenInput("id_r02[]", $aretes->r02_id);
-                                            }else{
-                                                return Html::input("text", "edad[]", \app\models\Aretes::findOne($aretes->r02_id)->r02_edad, ["class" => "form-control edadtabla", 'min'=>'0', 'style'=>'text-align:right;', 'required'=>true, 'onblur'=>"edadupdate(this, ".$aretes->r02_id.", 0)"]).
-                                                    Html::hiddenInput("id_r02[]", $aretes->r02_id);
-                                            }
-                                        },
-                                        'format' => 'raw'
-                                    ],
-
-
-                                    [
-                                        'label' => 'Raza',
-                                        'contentOptions'=>[
-                                            "width"=>"15%",
-                                        ],
-                                        'value' => function($aretes) {
-
-                                            $content = '<div class="input-group input-daterange">
-                                '.Html::dropDownList("raza[]", \app\models\Aretes::findOne($aretes->r02_id)->r02_raza, \app\models\Razas::getAllRazas($aretes->r02_especie), ["class" => "form-control", 'onblur'=>"edadupdate(this, ".$aretes->r02_id.", 1, ".$aretes->r02_raza2.")"]).'
-                                <span class="input-group-addon kv-field-separator">/</span>
-                                 '.Html::dropDownList("raza2[]", \app\models\Aretes::findOne($aretes->r02_id)->r02_raza2, \app\models\Razas::getAllRazas($aretes->r02_especie), ["class" => "form-control", "prompt" => "...", 'onblur'=>"edadupdate(this, ".$aretes->r02_id.", 2, ".$aretes->r02_raza.")"]).'
-                            </div>';
-                                            return $content;
-
-                                        },
-                                        'format' => 'raw'
-                                    ],
-
-                                    [
-                                        'label' => 'Sexo',
-                                        'contentOptions'=>[
-                                            "width"=>"10%",
-                                        ],
-                                        'value' => function($aretes) {
-                                            return Html::dropDownList("sexo[]", \app\models\Aretes::findOne($aretes->r02_id)->r02_sexo, [ '1'=>'Hembra','0'=>'Macho'], ["class" => "form-control", 'onblur'=>"edadupdate(this, ".$aretes->r02_id.", 3)"]);
-
-                                        },
-                                        'format' => 'raw'
-                                    ],
-
-                                    [
-                                        'label' => 'Especie',
-                                        'contentOptions'=>[
-                                            "width"=>"10%",
-                                        ],
-                                        'visible'=>false,
-                                        'value' => function($aretes) {
-                                            return Html::dropDownList("especie[]", \app\models\Aretes::findOne($aretes->r02_id)->r02_especie, \app\models\Especies::getAllEspecies(), ["class" => "form-control", "tabindex"=>"-1", 'disabled'=>true]);
-                                        },
-                                        'format' => 'raw'
-                                    ],
-                                    [
-                                        'attribute' => 'Acción',
-                                        'format' => 'raw',
-                                        'contentOptions'=>[
-                                            "width"=>"6%",
-                                        ],
-                                        'value' => function($data) {
-                                            return Html::a('<span class="glyphicon glyphicon-trash"></span>',false, [
-                                                'class'=>'ajaxDelete',
-                                                'url'=> \yii\helpers\Url::toRoute(['resenas/delete_arete','id'=>$data->r02_id]),
-                                                'grid'=>'tablat',
-                                                'param'=>null,
-                                                'title' => Yii::t('yii', 'Delete')]);
-                                        }
-                                    ],
-
-                                ],
-                            ]); ?>
-                            <?php \yii\widgets\Pjax::end(); ?>
-
+                        </div>
+                        </div>
                         </div>
                     </div>
                 </div>
