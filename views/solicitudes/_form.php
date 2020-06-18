@@ -61,29 +61,30 @@ if($model->isNewRecord){
 
                     <div class="row">
                         <div class="col-md-6">
-                            <?= $form->field($model, 'r01_id')->widget(\kartik\widgets\Select2::className(),[
-                                //'data' => \app\models\Upp::getUppsPorProductor($model->p01_ganadero),
-                                'value'=>$cityDesc,
-                                'hideSearch'=>true,
-                                'initValueText' => $cityDescrip,
-                                'options' => ['placeholder' => 'Seleccionar unidad de producción...', 'onchange'=>'asignarUPP()', 'disabled'=>$activar_upp],
-                                'pluginOptions' => [
-                                    'allowClear' => $disabled,
-                                    'minimumInputLength' => $enabled,
-                                    'language' => [
-                                        'errorLoading' => new \yii\web\JsExpression("function () { return 'Esperando resultados...'; }"),
-                                    ],
-                                    'ajax' => [
-                                        'url' => $url,
-                                        'dataType' => 'json',
-                                        'data' => new \yii\web\JsExpression('function(params) { return {q:params.term}; }')
-                                    ],
-                                    'escapeMarkup' => new \yii\web\JsExpression('function (markup) { return markup; }'),
-                                    'templateResult' => new \yii\web\JsExpression('function(upp) { return upp.text; }'),
-                                    'templateSelection' => new \yii\web\JsExpression('function (upp) { return upp.text; }'),
-                                ],
-                            ]) ?>
+                            <label>Clave PSG</label>
+                            <input type="text" class="form-control" value="32-049-1244-001" disabled="disabled" placeholder="Enter ...">
+                        </div>
+                        <div class="col-md-6">
+                            <label>Nombre</label>
+                            <input type="text" class="form-control" value="LA CARRETA" disabled="disabled" placeholder="Enter ...">
+                        </div>
 
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Localidad</label>
+                            <input type="text" class="form-control" value="SAN MIGUEL" disabled="disabled" placeholder="Enter ...">
+                        </div>
+                        <div class="col-md-6">
+                            <label>Municipio</label>
+                            <input type="text" class="form-control" value="VALPARAISO" disabled="disabled" placeholder="Enter ...">
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Propietario</label>
+                            <input type="text" class="form-control" value="JUAN MANUEL ROSALES" disabled="disabled" placeholder="Enter ...">
                         </div>
 
 
@@ -189,6 +190,7 @@ if($model->isNewRecord){
                                                     <th>UPP</th>
                                                     <th>Dictamen TB</th>
                                                     <th>Guía de transito</th>
+                                                    <th>Acciones</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -199,6 +201,7 @@ if($model->isNewRecord){
                                                     <td>32-033-1181-001</td>
                                                     <td> 38787765</td>
                                                     <td><input type="text" ></td>
+                                                    <td><i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true"></i></td>
                                                 </tr>
                                                 <tr>
                                                     <td>327687245</td>
@@ -207,6 +210,8 @@ if($model->isNewRecord){
                                                     <td>32-033-1181-00</td>
                                                     <td>38787763</td>
                                                     <td><input type="text" ></td>
+                                                    <td><i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true"></i></td>
+
                                                 </tr>
                                                 <tr>
                                                     <td>327687245</td>
@@ -215,6 +220,8 @@ if($model->isNewRecord){
                                                     <td>32-049-0350-212</td>
                                                     <td>22787765</td>
                                                     <td><input type="text" ></td>
+                                                    <td><i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true"></i></td>
+
                                                 </tr>
                                                 <tr>
                                                     <td>327687245</td>
@@ -223,6 +230,9 @@ if($model->isNewRecord){
                                                     <td>32-033-1181-00</td>
                                                     <td>45787765</td>
                                                     <td><input type="text" ></td>
+
+                                                    <td><i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true"></i></td>
+
                                                 </tr>
                                                 <tr>
                                                     <td>327687245</td>
@@ -230,6 +240,8 @@ if($model->isNewRecord){
                                                     <td>32-033-1194-001</td>
                                                     <td>38787765</td>
                                                     <td><input type="text" ></td>
+                                                    <td><i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true"></i></td>
+
                                                 </tr>
                                                 <tr>
                                                     <td>327687245</td>
@@ -237,6 +249,8 @@ if($model->isNewRecord){
                                                     <td>32-015-1081-001</td>
                                                     <td>38787765</td>
                                                     <td><input type="text" ></td>
+                                                    <td><i class="fa fa-check" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true"></i></td>
+
                                                 </tr>
 
 
