@@ -7,8 +7,7 @@ use yii\helpers\Html;
 /* @var $model app\models\Solicitudes */
 
 $this->title = 'Generar solicitud';
-$this->params['breadcrumbs'][] = ['label' => 'Solicitudes', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="solicitudes-create">
 

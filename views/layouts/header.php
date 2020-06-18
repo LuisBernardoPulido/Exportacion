@@ -18,7 +18,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/control_main.js', ['dep
     <nav class="navbar navbar-static-top">
         <div class="container">
             <div class="navbar-header">
-                <a href="../../index2.html" class="navbar-brand"><b>Exportación</b></a>
+                <a href="#" class="navbar-brand"><b>Exportación</b></a>
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                     <i class="fa fa-bars"></i>
                 </button>
@@ -29,6 +29,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/control_main.js', ['dep
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="../web/index.php">Inicio <span class="sr-only">(current)</span></a></li>
                     <li><a href="../web/index.php?r=perfil-usuario%2Fview&id=1">Perfil</a></li>
+                    <li><a href="../web/index.php?r=solicitudes/create">Generar solicitud</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Opciones <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">

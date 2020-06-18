@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
 
 
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/mensaje_guardado.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-$this->registerJsFile(Yii::$app->request->baseUrl . '/js/control_resenaas.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/control_enter.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/control_del_grid.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/control_scroll.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
@@ -178,9 +178,7 @@ if($model->isNewRecord){
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="box">
-                                        <div class="box-header">
-                                            <h3 class="box-title">Hover Data Table</h3>
-                                        </div>
+
                                         <!-- /.box-header -->
                                         <div class="box-body">
                                             <table id="example2" class="table table-bordered table-hover">
