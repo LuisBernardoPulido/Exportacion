@@ -12,7 +12,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/control_productores.js'
 
     <?php
 
-    $url_upp = \yii\helpers\Url::to(['resenas/upplist']);
+    $url_upp = \yii\helpers\Url::to(['unidades/upplist']);
     $form = ActiveForm::begin([
         "options" => ["enctype" => "multipart/form-data", 'id'=>'frm_producto' ]
     ]);

@@ -101,8 +101,8 @@ class GanaderosController extends Controller
             $model->c01_calle = strtoupper(trim($model->c01_calle));
             $model->c01_correo = strtoupper(trim($model->c01_correo));
             $model -> save();
-            Yii::$app->getSession()->setFlash('success', 'La información se guardó correctamente.');
-            return $this->redirect(['create']);
+            Yii::$app->getSession()->setFlash('success', 'La información del Productor se guardó correctamente.');
+            return $this->redirect(['site/index']);
         } else {
             if (!isset($_GET['_pjax'])) {
                 $this->borrarRelacionesNull();
@@ -139,8 +139,8 @@ class GanaderosController extends Controller
             if($edicion!=0){
                 return $this->redirect(['unidades/update', 'id'=>$edicion]);
             }else{
-                Yii::$app->getSession()->setFlash('success', 'La información se guardó correctamente.');
-                return $this->redirect(['create']);
+                Yii::$app->getSession()->setFlash('success', 'La información del Productor se guardó correctamente.');
+                return $this->redirect(['site/index']);
             }
         } else {
             return $this->render('update', [
@@ -181,21 +181,22 @@ class GanaderosController extends Controller
 
     public static function actionCargarmunicipiosproductor($edo){
         $mpo = Municipios::getMunicipiosPorEdo($edo);
-
-        echo "<option value=''>Seleccionar municipio...</option>";
+        $municipios = "<option value=''>Seleccionar municipio...</option>";
         foreach($mpo as $key => $value){
             $mun = Municipios::findOne($key);
-            echo "<option value='" . $mun->c03_id . "'>" . $mun->c03_nom_mun ."</option>";
+            $municipios .= "<option value='" . $mun->c03_id . "'>" . $mun->c03_nom_mun."</option>";
         }
+        return $municipios;
     }
 
     public static function actionCargarlocalidadesproductor($edo, $mpo){
         $loc = LocalidadesZac::getLocalidadesPorMun($edo, $mpo);
-        echo "<option value=''>Seleccionar localidad...</option>";
+        $localidades = "<option value=''>Seleccionar localidad...</option>";
         foreach($loc as $key => $value){
             $loca = LocalidadesZac::findOne($key);
-            echo "<option value='" . $loca->c04_id . "'>" . $loca->c04_nom_loc ."</option>";
+            $localidades .= "<option value='" . $loca->c04_id . "'>" . $loca->c04_nom_loc ."</option>";
         }
+        return $localidades;
     }
 
     public static function actionValidarcurp($curp){
@@ -367,6 +368,7 @@ class GanaderosController extends Controller
         }
         return $out;
     }
+
     public function actionGanlistnombre($q = null, $id = null) {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $out = ['results' => ['id' => '', 'text' => '']];

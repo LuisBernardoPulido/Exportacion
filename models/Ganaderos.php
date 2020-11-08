@@ -84,9 +84,9 @@ class Ganaderos extends \yii\db\ActiveRecord
             ->all();
         return ArrayHelper::map($dropciones, 'c01_id', function($model, $defaultValue) {
             if($model['c01_tipo']==1){
-                return $model['c01_rfc'] . ' - ' . strtoupper($model['c01_razonsocial']);
+                return $model['c01_rfc'] . ' ' . strtoupper($model['c01_razonsocial']);
             }else {
-                return $model['c01_curp'] . ' - ' . strtoupper($model['c01_nombre']) . ' ' . strtoupper($model['c01_apaterno']) . ' ' . strtoupper($model['c01_amaterno']);
+                return $model['c01_curp'] . ' ' . strtoupper($model['c01_nombre']) . ' ' . strtoupper($model['c01_apaterno']) . ' ' . strtoupper($model['c01_amaterno']);
             }
         });
     }

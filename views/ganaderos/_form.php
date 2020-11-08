@@ -12,16 +12,19 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/agregar_localidad_ganad
 /* @var $model app\models\Ganaderos */
 /* @var $form yii\widgets\ActiveForm */
 ?>
+
+<div class="col-md-12">
+
 <div class="panel panel-primary" id="panel-primary-mpc">
     <div class="panel-heading" id="panel-heading-mpc">PRODUCTORES</div>
     <div class="panel-body">
 
 <div class="ganaderos-form">
-    <br>
+    <p align="right">
+        <?= Html::a('Nueva solicitud', ['exportacion/create'], ['class' => 'btn btn-danger', 'title'=>'Crear nueva solicitud de exportación']) ?>
+    </p>
     <?php $form = ActiveForm::begin(); ?>
     <?php
-
-
 
     if($model->isNewRecord){
         $id = -1;
@@ -58,7 +61,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/agregar_localidad_ganad
                 }
                 ?>
                 <div class="col-sm-4 col-md-4">
-                    <?= $form->field($model, 'c01_rfc')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;']) ?>
+                    <?= $form->field($model, 'c01_rfc')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
                     <span class="help-block" id="rfc_rep" style="color: #FF0000;margin-left:15px; display: none"></span>
 
                     <?php
@@ -74,7 +77,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/agregar_localidad_ganad
                     ?>
                 </div>
                 <div class="col-sm-8 col-md-8">
-                    <?= $form->field($model, 'c01_razonsocial')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;']) ?>
+                    <?= $form->field($model, 'c01_razonsocial')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
                 </div>
             </div>
 
@@ -93,7 +96,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/agregar_localidad_ganad
                     }
                     ?>
 
-                    <?= $form->field($model, 'c01_curp')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;']) ?>
+                    <?= $form->field($model, 'c01_curp')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
 
                     <?php
                     if($model->isNewRecord){
@@ -114,7 +117,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/agregar_localidad_ganad
             <div class="row">
                 <div class="col-sm-4 col-md-4">
 
-                    <?=$form->field($model, 'c01_apaterno')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;']) ?>
+                    <?=$form->field($model, 'c01_apaterno')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
 
                     <!--<?php
                     if($model->isNewRecord) {
@@ -147,7 +150,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/agregar_localidad_ganad
                         <?php
                     }else {
                         ?>
-                        <?=$form->field($model, 'c01_apaterno')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;']) ?>
+                        <?=$form->field($model, 'c01_apaterno')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
 
                         <?php
                     }
@@ -155,22 +158,22 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/agregar_localidad_ganad
 
                 </div>
                 <div class="col-sm-4 col-md-4">
-                    <?= $form->field($model, 'c01_amaterno')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;']) ?>
+                    <?= $form->field($model, 'c01_amaterno')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
                 </div>
                 <div class="col-md-4">
-                    <?= $form->field($model, 'c01_nombre')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;']) ?>
+                    <?= $form->field($model, 'c01_nombre')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-4">
-                    <?= $form->field($model, 'c01_calle')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;']) ?>
+                    <?= $form->field($model, 'c01_calle')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
                 </div>
                 <div class="col-md-4">
-                    <?= $form->field($model, 'c01_colonia')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;']) ?>
+                    <?= $form->field($model, 'c01_colonia')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
                 </div>
                 <div class="col-md-4">
-                    <?= $form->field($model, 'c01_cp')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'c01_cp')->textInput(['maxlength' => true, 'autocomplete'=>'off']) ?>
                 </div>
 
             </div>
@@ -186,7 +189,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/agregar_localidad_ganad
                 </div>
                 <div class="col-md-4">
                     <?= $form->field($model, 'c01_municipio')->widget(\kartik\widgets\Select2::className(),[
-                        'data' => \app\models\Municipios::getAllMuns(),
+                        //'data' => \app\models\Municipios::getAllMuns(),
                         'options' => ['placeholder' => 'Seleccionar municipio...', 'onchange' => 'cargarlocalidadesProductor()' ],
                         'pluginOptions' => [
                             'allowClear' => true
@@ -197,32 +200,27 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/agregar_localidad_ganad
                 <div class="col-md-4">
                     <div class="input-group">
                         <?= $form->field($model, 'c01_localidad')->widget(\kartik\widgets\Select2::className(),[
-                            'data' => \app\models\LocalidadesZac::getAllLocalidades(),
+                            //'data' => \app\models\LocalidadesZac::getAllLocalidades(),
                             'options' => ['placeholder' => 'Seleccionar localidad...'],
                             'pluginOptions' => [
                                 'allowClear' => true
                             ],
                         ]) ?>
-                        <br>
+                        <!--<br>
                         <label for="botonMas">&nbsp;</label>
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" id="botonMas"  onclick="agregarLocalidad()" style="color: white; border-color: #942626; background-color: #942626";"><i class="fa fa-plus"></i></button>
-                        </span>
+                        </span>-->
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <?= $form->field($model, 'c01_correo')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'c01_correo')->textInput(['maxlength' => true, 'autocomplete'=>'off']) ?>
                     <span class="help-block" id="val_email" style="color: #FF0000;margin-left:15px; display: none">El correo electrónico no es válido.</span>
                 </div>
                 <div class="col-md-4">
-                    <?= $form->field($model, 'c01_telefono')->textInput(['maxlength' => true]) ?>
-                </div>
-                <div class="col-md-4">
-                    <label>Fierro</label>
-                    <input type="file" name="fierro" accept="image/*">
-
+                    <?= $form->field($model, 'c01_telefono')->textInput(['maxlength' => true, 'autocomplete'=>'off']) ?>
                 </div>
             </div>
                 </div>
@@ -384,4 +382,5 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/agregar_localidad_ganad
 
 </div>
 </div>
-
+</div>
+</div>

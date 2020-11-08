@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\widgets\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Upp */
@@ -12,11 +13,20 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/control_entidades_upp.j
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/agregar_localidad_upp.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
 
 ?>
+
+<div class="col-md-1">
+</div>
+<div class="col-md-10">
+
 <div class="panel panel-primary" id="panel-primary-mpc">
     <div class="panel-heading" id="panel-heading-mpc">UPPS Y PSGS</div>
     <div class="panel-body">
 
 <div class="upp-form">
+
+    <p align="right">
+        <?= Html::a('Nuevo permiso', ['internacion/create'], ['class' => 'btn btn-danger', 'title'=>'Crear nuevo permiso de internación']) ?>
+    </p>
 
     <?php $form = ActiveForm::begin(); ?>
     <?php
@@ -30,20 +40,43 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/agregar_localidad_upp.j
     <input type="hidden" id="id_first_time" value="0">
     <input type="hidden" id="id_first_time_mun" value="0">
 
-    <br>
     <div class="panel panel-info" id="panel-info-mpc">
         <div class="panel-heading" id="panel-info-header">Información de la Unidad</div>
         <div class="panel-body">
 
             <div class="row">
                 <div class="col-xs-4">
-                    <?= $form->field($model, 'r01_tipo')->dropDownList([ '0' => 'UPP', '1' => 'PSG']) ?>
+                    <?= $form->field($model, 'r01_tipo')->dropDownList([ '0' => 'UPP', '1' => 'PSG'], ['onchange'=>'motivoPsg()']) ?>
                 </div>
+
+                <!--Abre Motivo PSG-->
+                <?php
+                    if( $model->r01_tipo==0){
+                ?>
+                <div class="col-md-4" id="motivoPsg" style="display: none">
+
+                <?php
+                    }else{
+                ?>
+                    <div class="col-md-4" id="motivoPsg">
+                <?php
+                    }
+
+                ?>
+                    <?= $form->field($model, 'c25_id')->widget(\kartik\widgets\Select2::className(), [
+                        'data' => \app\models\TipoPsg::getAllTiposPsg(),
+                        'options' => ['placeholder' => 'Seleccionar motivo...'],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]) ?>
+                </div>
+                <!--Cierra Motivo PSG-->
             </div>
 
         <div class="row">
                 <div class="col-sm-6 col-md-4">
-                    <?= $form->field($model, 'r01_clave')->textInput(['maxlength' => true, 'autofocus'=>true]) ?>
+                    <?= $form->field($model, 'r01_clave')->textInput(['maxlength' => true, 'autofocus'=>true, 'autocomplete'=>'off']) ?>
                     <span class="help-block" id="val_clave" style="color: #FF0000;margin-left:15px; display: none"></span>
 
                     <?php
@@ -61,21 +94,21 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/agregar_localidad_upp.j
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <?= $form->field($model, 'r01_nombre')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;']) ?>
+                    <?= $form->field($model, 'r01_nombre')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
                 </div>
                 <div class="col-md-4">
-                    <?= $form->field($model, 'r01_superficie')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;']) ?>
+                    <?= $form->field($model, 'r01_superficie')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <?= $form->field($model, 'r01_calle')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;']) ?>
+                    <?= $form->field($model, 'r01_calle')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
                 </div>
                 <div class="col-md-4">
-                    <?= $form->field($model, 'r01_colonia')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;']) ?>
+                    <?= $form->field($model, 'r01_colonia')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
                 </div>
                 <div class="col-md-4">
-                    <?= $form->field($model, 'r01_cp')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'r01_cp')->textInput(['maxlength' => true, 'autocomplete'=>'off']) ?>
                 </div>
             </div>
             <div class="row">
@@ -91,7 +124,7 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/agregar_localidad_upp.j
 
                 <div class="col-md-4">
                     <?= $form->field($model, 'r01_municipio')->widget(\kartik\widgets\Select2::className(),[
-                        'data' => \app\models\Municipios::getAllMuns(),
+                        //'data' => \app\models\Municipios::getAllMuns(),
                         'options' => ['placeholder' => 'Seleccionar municipio...', 'onchange' => 'cargarlocalidadesUpp()'],
                         'pluginOptions' => [
                             'allowClear' => true
@@ -102,17 +135,17 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/agregar_localidad_upp.j
                 <div class="col-md-4">
                     <div class="input-group">
                         <?= $form->field($model, 'r01_localidad')->widget(\kartik\widgets\Select2::className(),[
-                            'data' => \app\models\LocalidadesZac::getAllLocalidades(),
-                            'options' => ['placeholder' => 'Seleccionar localidad...'],
+                            //'data' => \app\models\LocalidadesZac::getAllLocalidades(),
+                            'options' => ['placeholder' => 'Seleccionar localidad...', 'onchange'=>'buscarEstatus()'],
                             'pluginOptions' => [
                                 'allowClear' => true
                             ],
                         ]) ?>
-                            <br>
+                            <!--<br>
                             <label for="botonMas">&nbsp;</label>
                             <span class="input-group-btn">
                             <button type="button" class="btn btn-default" id="botonMas"  onclick="agregarLocalidad()" style="color: white; border-color: #942626; background-color: #942626";"><i class="fa fa-plus"></i></button>
-                        </span>
+                        </span>-->
                     </div>
                 </div>
 
@@ -132,8 +165,28 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/agregar_localidad_upp.j
 
                 <div class="col-md-2">
                     <?= $form->field($model, 'r01_zona')->widget(\kartik\widgets\Select2::className(), [
-                        'data' => \app\models\Zonas::getAllZonas(),
-                        'options' => ['placeholder' => 'Seleccionar zona...'],
+                        'data' => \app\models\Zonas::getAllEstatus(),
+                        'options' => ['placeholder' => 'Seleccionar zona...', 'disabled'=>true],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]) ?>
+                </div>
+
+                <div class="col-md-2">
+                    <?= $form->field($model, 'c23_id')->widget(\kartik\widgets\Select2::className(), [
+                        'data' => \app\models\EstatusSenasica::getAllEstatus(),
+                        'options' => ['placeholder' => 'Seleccionar estatus...', 'disabled'=>true],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]) ?>
+                </div>
+
+                <div class="col-md-3">
+                    <?= $form->field($model, 'c24_id')->widget(\kartik\widgets\Select2::className(), [
+                        'data' => \app\models\EstatusUsda::getAllEstatus(),
+                        'options' => ['placeholder' => 'Seleccionar estatus...', 'disabled'=>true],
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
@@ -146,17 +199,18 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/agregar_localidad_upp.j
                 </div>
 
             </div>
-<br>
+
+            <br>
             <div class="row">
                 <div class="col-md-8">
                     <div class="panel panel-info" style="display: block">
                         <div class="panel-heading" id="panel-info-header">Posición Geográfica</div>
                         <div class="panel-body">
                             <div class="col-md-4">
-                                <?= $form->field($model, 'r01_latitud')->textInput(['type'=>'text', 'step'=>'any','maxlength' => true]) ?>
+                                <?= $form->field($model, 'r01_latitud')->textInput(['type'=>'text', 'step'=>'any','maxlength' => true, 'autocomplete'=>'off']) ?>
                             </div>
                             <div class="col-md-4">
-                                <?= $form->field($model, 'r01_longitud')->textInput(['type'=>'text', 'step'=>'any', 'maxlength' => true]) ?>
+                                <?= $form->field($model, 'r01_longitud')->textInput(['type'=>'text', 'step'=>'any', 'maxlength' => true, 'autocomplete'=>'off']) ?>
                             </div>
 
                         </div>
@@ -164,6 +218,9 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/agregar_localidad_upp.j
                 </div>
 
             </div>
+
+
+
         </div>
     </div>
 
@@ -261,4 +318,9 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/agregar_localidad_upp.j
     <?php ActiveForm::end(); ?>
 
 </div>
+</div>
+</div>
+
+</div>
+<div class="col-md-1">
 </div>

@@ -49,9 +49,10 @@ class Upp extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['r01_nombre', 'r01_clave', 'r01_estado', 'r01_tenencia', 'r01_zona', 'r01_latitud', 'r01_longitud'], 'required'],
-            [['r01_tipo', 'r01_mostrar', 'r01_usuAlta', 'r01_usuMod'], 'integer'],
-            [['r01_fecAlta', 'r01_fecMod'], 'safe'],
+            [['r01_nombre', 'r01_clave', 'r01_estado', 'r01_tenencia', 'r01_latitud', 'r01_longitud', 'r01_municipio', 'r01_localidad'], 'required'],
+            [['r01_tipo', 'r01_mostrar', 'r01_usuAlta', 'r01_usuMod', 'r01_zona', 'c23_id', 'c24_id', 'c25_id'], 'integer'],
+            [['r01_cuarentena', 'r01_cuar_tipo', 'r01_cuar_relacion'], 'string'],
+            [['r01_fecAlta', 'r01_fecMod', 'r01_cuar_fecha_fin'], 'safe'],
             [['r01_nombre', 'r01_superficie', 'r01_localidad', 'r01_municipio', 'r01_estado', 'r01_faretado', 'r01_tenencia', 'r01_latitud', 'r01_longitud', 'r01_altitud'], 'string', 'max' => 50],
             [['r01_clave'], 'string', 'max' => 15],
             [['r01_latitud'], 'string', 'min' => 6],
@@ -68,12 +69,12 @@ class Upp extends \yii\db\ActiveRecord
     {
         return [
             'r01_id' => 'ID UPP',
-            'r01_nombre' => 'Nombre de la UPP o PSG',
+            'r01_nombre' => 'Nombre de la UPP/PSG',
             'r01_superficie' => 'Superficie',
-            'r01_clave' => 'Clave UPP',
+            'r01_clave' => 'Clave UPP/PSG',
             'r01_calle' => 'Calle',
             'r01_colonia' => 'Colonia',
-            'r01_cp' => 'CP',
+            'r01_cp' => 'Código Postal',
             'r01_localidad' => 'Localidad',
             'r01_municipio' => 'Municipio',
             'r01_estado' => 'Estado',
@@ -82,13 +83,21 @@ class Upp extends \yii\db\ActiveRecord
             'r01_latitud' => 'Latitud',
             'r01_longitud' => 'Longitud',
             'r01_altitud' => 'Altitud',
-            'r01_tipo' => 'Tipo',
+            'r01_tipo' => 'Tipo de Unidad',
             'r01_mostrar' => 'Mostrar',
             'r01_usuAlta' => 'Usuario Alta',
             'r01_fecAlta' => 'Fecha Alta',
             'r01_usuMod' => 'Usuario Modificación',
             'r01_fecMod' => 'Fecha Modificación',
             'r01_zona' => 'Zona',
+            'c23_id' => 'Estatus SENASICA',
+            'c24_id' => 'Estatus USDA',
+            'c25_id' =>'Motivo de PSG',
+            'r01_cuarentena' => 'Está Cuarentenada',
+            'r01_cuar_tipo' => 'Tipo de Cuarentena',
+            'r01_cuar_fecha_inicio' => 'Fecha de Inicio',
+            'r01_cuar_fecha_fin' => 'Fecha de Terminación',
+            'r01_cuar_relacion' => 'Por su Relación',
         ];
     }
 

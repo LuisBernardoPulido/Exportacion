@@ -147,6 +147,8 @@ $config = [
             'site/retrieve',
             'debug/*',
             'solicitudes/*',
+            'exportacion/*',
+            'gii/*',
 
 
             'some-controller/some-action',
