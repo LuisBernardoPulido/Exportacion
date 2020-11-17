@@ -2,6 +2,18 @@
 
 namespace app\controllers;
 
+use app\models\Estados;
+use app\models\EstatusSanitario;
+use app\models\EstatusSanitarioEstatal;
+use app\models\EstatusSenasica;
+use app\models\EstatusUsda;
+use app\models\ExcepcionesEstatusSanitario;
+use app\models\Ganaderos;
+use app\models\LocalidadesZac;
+use app\models\Municipios;
+use app\models\PropietarioUnidad;
+use app\models\Upp;
+use app\models\Zonas;
 use Yii;
 use app\models\Exportacion;
 use app\models\search\ExportacionSearch;
@@ -121,4 +133,134 @@ class ExportacionController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    public function actionUnidadesdestino($q = null, $id = null, $prod) {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'text' => '']];
+        if (!is_null($q)) {
+            $query = Yii::$app->db->createCommand("
+SELECT 
+r01.r01_id as id,
+CONCAT(r01.r01_clave, ' - ' ,r01_nombre) as text
+FROM r01_upp r01
+/*JOIN r04_prop_unit r04 on r04.r01_id!=r01.r01_id
+WHERE r04.c01_id=(select c01_id from c01_ganaderos where user_id='".$prod."') AND*/ WHERE r01_clave LIKE '".$q."%' 
+LIMIT 20
+");
+            $data = $query->queryAll();
+            $out['results'] = array_values($data);
+        }
+        elseif ($id > 0) {
+            $out['results'] = ['id' => $id, 'text' => Upp::findOne($id)->r01_clave];
+        }
+        return $out;
+    }
+
+    public function actionGetunidades($prod){
+        $op =  PropietarioUnidad::find()->where('c01_id=:id', ['id'=>$prod])->all();
+        $ops = "<option value=''>Seleccionar Unidad...</option>";
+        foreach($op as $o){
+            $cons = Upp::findOne($o->r01_id);
+            $ops .= "<option value='" . $cons->r01_id . "'>" .$cons->r01_clave.' - '.$cons->r01_nombre."</option>";
+        }
+        return $ops;
+    }
+    public function actionProductororigenunico($prod){
+        $productores =  PropietarioUnidad::find()->where('c01_id=:id', ['id'=>$prod]);
+        if($productores->count()==1){
+            foreach ($productores->all() as $pp){
+                return $pp->r01_id;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    public function actionUnidadorigen($id){
+        $arr[0] = '';
+
+        $unidad = Upp::findOne($id);
+        if($unidad){
+            $estatus = 'LIBRE DE CUARENTENA';
+            /*if($unidad->r01_estatus_unidad==1)
+                $estatus = 'LIBRE DE CUARENTENA';
+            else if($unidad->r01_estatus_unidad==2)
+                $estatus = 'CUARENTENA PRECAUTORIA';
+            else if($unidad->r01_estatus_unidad==3)
+                $estatus = 'CUARENTENA DEFINITVA';*/
+            $arr[1] = $estatus;//estatus sanitario
+            $arr[2] = $unidad->r01_latitud ? $unidad->r01_latitud : '';//latitud
+            $arr[3] = $unidad->r01_longitud ? $unidad->r01_longitud : '';//longitud
+        }
+
+        return json_encode($arr);
+    }
+
+    public function actionUnidaddestino($id){
+        $relacion = PropietarioUnidad::find()->where('r01_id=:id', [':id'=>$id])->one();
+
+        $arr[0] = '';
+
+        $unidad = Upp::findOne($id);
+        if($unidad){
+            $arr[1] = $unidad->r01_calle ? $unidad->r01_calle : '';
+            $arr[2] = $unidad->r01_colonia ? $unidad->r01_colonia : '';
+            $arr[3] = $unidad->r01_cp ? $unidad->r01_cp : '';
+            //Obtener el nombre del estado
+            if($unidad->r01_estado){
+                $edo = Estados::findOne($unidad->r01_estado);
+                if($edo)
+                    $arr[4] = $edo->c02_nom_ent;
+            }else{
+                $arr[4] = '';
+            }
+            //Obtener la descripción del municipio
+            if($unidad->r01_municipio){
+                $mpo = Municipios::findOne($unidad->r01_municipio);
+                if($mpo)
+                    $arr[5] = $mpo->c03_nom_mun;
+            }else{
+                $arr[5] = '';
+            }
+            //Obtener la descripción de la localidad
+            if($unidad->r01_localidad){
+                $loc = LocalidadesZac::findOne($unidad->r01_localidad);
+                if($loc)
+                    $arr[6] = $loc->c04_nom_loc;
+            }else{
+                $arr[6] = '';
+            }
+
+            $estatus = 'LIBRE DE CUARENTENA';
+            /*
+            if($unidad->r01_estatus_unidad==1)
+                $estatus = 'LIBRE DE CUARENTENA';
+            else if($unidad->r01_estatus_unidad==2)
+                $estatus = 'CUARENTENA PRECAUTORIA';
+            else if($unidad->r01_estatus_unidad==3)
+                $estatus = 'CUARENTENA DEFINITVA';*/
+            $arr[7] = $estatus;//estatus sanitario
+            $arr[8] = $unidad->r01_latitud ? $unidad->r01_latitud : '';//latitud
+            $arr[9] = $unidad->r01_longitud ? $unidad->r01_longitud : '';//longitud
+
+        }
+
+        return json_encode($arr);
+    }
+    public function actionBuscarrelacion($usuario){
+        $prod = Ganaderos::find()->where('user_id=:usr', [':usr'=>$usuario])->one();
+        //return sizeof($prod);
+        if($prod){
+            $relaciones = PropietarioUnidad::find()->where('c01_id=:id',[':id'=>$prod->c01_id])->count();
+            if($relaciones=='0')
+                return $prod->c01_id;
+            else
+                return -1;
+        }else
+            return -1;
+    }
+
 }
+
+
+
+//

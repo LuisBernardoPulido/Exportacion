@@ -13,7 +13,8 @@ $this->registerCssFile('css/estilo_exportacion.css');
 /* @var $form yii\widgets\ActiveForm */
 
 if($model->isNewRecord){
-    $unidades_destino = \yii\helpers\Url::to(['unidadesdestino', 'prod'=>Yii::$app->user->getId()]);
+    //$unidades_destino = \yii\helpers\Url::to(['unidadesdestino', 'prod'=>Yii::$app->user->getId()]);
+    $unidades_destino = \yii\helpers\Url::to(['unidadesdestinotemp', 'prod'=>Yii::$app->user->getId()]);
     $editando = -1;
     $visible = false;
     $aretes = \app\models\Exportacion::getAretesNo();
@@ -31,12 +32,10 @@ if($model->isNewRecord){
         $bloqueo = true;
 }
 ?>
-<div class="col-md-12">
     <div class="panel panel-primary" id="panel-primary">
         <div class="panel-heading" id="panel-heading-mpc">Datos de la solicitud de exportación</div>
         <div class="panel-body">
             <div class="internacion-form">
-
                 <?php $form = ActiveForm::begin([
                     'options' => ['enctype'=>'multipart/form-data']
                 ]); ?>
@@ -53,20 +52,11 @@ if($model->isNewRecord){
 
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="input-group">
-                                            <?= $form->field($model, 'c01_id')->widget(\kartik\widgets\Select2::className(),[
-                                                'data' => \app\models\Ganaderos::getAllGanaderos(),
-                                                'options' => ['placeholder' => 'Seleccionar un Productor...', 'id'=>'prod_origen', 'onchange'=>'cargarUnidadesOrigen()', 'disabled'=>$bloqueo],
-                                                'pluginOptions' => [
-                                                    'allowClear' => true,
-                                                    'minimumInputLength' => 5,
-                                                ],
-                                            ]) ?>
-                                            <label >&nbsp</label>
-                                            <span class="input-group-btn">
-                                                <button type="button" onclick="abrirProductores()" class="btn btn-info btn-flat col-xs-12" style="color: white; border-color: #942626; background-color: #942626";">Agregar Productor</button>
-                                            </span>
-                                        </div>
+                                        <?php
+                                            $useri = \app\models\PerfilUsuario::getPerfil(Yii::$app->user->getId());
+                                            $user = $useri->a02_nombre;
+                                        ?>
+                                        <?= $form->field($model, 'p11_usuAlta')->textInput(['maxlength' => true, 'value'=> ''.$user, 'readonly'=> true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
                                     </div>
 
                                     <div class="col-md-6">
@@ -88,7 +78,7 @@ if($model->isNewRecord){
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-2">
+                                            <div class="col-md-3">
                                                 <label>Hato libre</label>
                                                 <br>
                                                 <input class="form-control"  id="origen_hl" style="margin-left: 2px; 2px; text-align:left" <?php if($bloqueo) echo "readonly";?> >
@@ -98,7 +88,7 @@ if($model->isNewRecord){
                                                 <br>
                                                 <input class="form-control"  id="origen_estatus" style="margin-left: 2px; 2px; text-align:left" readonly>
                                             </div>
-                                            <div class="col-md-1">
+                                            <!--<div class="col-md-1">
                                                 <label>Zona</label>
                                                 <br>
                                                 <input class="form-control"  id="origen_zona" style="margin-left: 2px; 2px; text-align:left" readonly>
@@ -112,7 +102,7 @@ if($model->isNewRecord){
                                                 <label>Estatus USDA</label>
                                                 <br>
                                                 <input class="form-control"  id="origen_usda" style="margin-left: 2px; 2px; text-align:left" readonly>
-                                            </div>
+                                            </div>-->
                                         </div>
                                     </div>
                                 </div>
@@ -212,12 +202,12 @@ if($model->isNewRecord){
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="row">
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 <label>Cuarentena</label>
                                                 <br>
                                                 <input class="form-control"  id="destino_estatus" style="margin-left: 2px; 2px; text-align:left" readonly>
                                             </div>
-                                            <div class="col-md-2">
+                                            <!--<div class="col-md-2">
                                                 <label>Zona</label>
                                                 <br>
                                                 <input class="form-control"  id="destino_zona" style="margin-left: 2px; 2px; text-align:left" readonly>
@@ -231,7 +221,7 @@ if($model->isNewRecord){
                                                 <label>Estatus USDA</label>
                                                 <br>
                                                 <input class="form-control"  id="destino_usda" style="margin-left: 2px; 2px; text-align:left" readonly>
-                                            </div>
+                                            </div>-->
                                         </div>
 
                                     </div>
@@ -246,6 +236,28 @@ if($model->isNewRecord){
                         <div class="panel panel-info" style="display: block">
                             <div class="panel-heading" id="panel-info-header">Detalle de solicitud</div>
                             <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                            <?= $form->field($model, 'p11_guia')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
+                                    </div>
+                                    <div class="col-md-4">
+                                            <?= $form->field($model, 'p11_fecha')->widget(DatePicker::classname(), [
+                                                'value' => date('d/M/Y'),
+                                                'type' => DatePicker::TYPE_COMPONENT_APPEND,
+                                                'pluginOptions' => ['autoclose' => true, 'format' => 'yyyy-mm-dd', 'todayHighlight'=>true, 'endDate'=>'+5d', 'startDate'=>'0d',]
+                                            ]) ?>
+                                    </div>
+                                    <div class="col-md-4">
+                                            <?= $form->field($model, 'p11_especie')->widget(\kartik\widgets\Select2::className(),[
+                                                'data' => \app\models\Especies::getAllEspecies(),
+                                                'options' => ['placeholder' => 'Seleccionar especie...', 'id'=>'especc', 'disabled'=>$bloqueo, 'onchange'=>'buscarArete()'],
+                                                'pluginOptions' => [
+                                                    'allowClear' => true
+                                                ],
+                                            ]) ?>
+                                    </div>
+
+                                </div>
 
                                 <div class="row">
                                     <div class="col-md-4">
@@ -257,23 +269,10 @@ if($model->isNewRecord){
                                             ],
                                         ]) ?>
                                     </div>
-                                    <div class="col-md-3">
-                                        <?= $form->field($model, 'p11_fecha')->widget(DatePicker::classname(), [
-                                            'value' => date('d/M/Y'),
-                                            'type' => DatePicker::TYPE_COMPONENT_APPEND,
-                                            'pluginOptions' => ['autoclose' => true, 'format' => 'yyyy-mm-dd', 'todayHighlight'=>true, 'endDate'=>'+5d', 'startDate'=>'0d',]
-                                        ]) ?>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <?= $form->field($model, 'p11_especie')->widget(\kartik\widgets\Select2::className(),[
-                                            'data' => \app\models\Especies::getAllEspecies(),
-                                            'options' => ['placeholder' => 'Seleccionar especie...', 'id'=>'especc', 'disabled'=>$bloqueo, 'onchange'=>'buscarArete()'],
-                                            'pluginOptions' => [
-                                                'allowClear' => true
-                                            ],
-                                        ]) ?>
-                                    </div>
+                                    <div class="col-md-4">
+                                        <?= $form->field($model, 'p11_aux')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
 
+                                    </div>
                                 </div>
 
                             </div>
@@ -291,44 +290,77 @@ if($model->isNewRecord){
                                     <div class="col-md-12">
                                         <div class="panel panel-info" style="display: block">
                                             <div class="panel-heading" id="panel-info-header">Capturar arete</div>
-                                            <br>
-                                            <div class="col-md-2">
-                                                <label>Identificador</label><br>
-                                                <input class="form-control" maxlength="10" id="cap_are" autocomplete="off" onkeyup="buscarArete()" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Ej. 1409600001"  <?php if($bloqueo) echo "readonly";?> autofocus>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label>Edad</label><br>
-                                                <input class="form-control"  id="cap_edad" style="margin-left: 2px; 2px; text-align:left" autocomplete="off">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <label for="raza">Raza</label>
-                                                <label for="raza2"></label>
-                                                <?=
-                                                '<div class="input-group input-daterange">'.
-                                                Html::dropDownList("", null, \app\models\Razas::getAllRazas(1), ["class" => "form-control", "id"=>"cap_raza"]).
-                                                '<span class="input-group-addon kv-field-separator">/</span>'.
-                                                Html::dropDownList("", null, \app\models\Razas::getAllRazas(1), ["class" => "form-control", "id"=>"cap_raza2", "prompt" => "..."]).
-                                                '</div>'
-                                                ?>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label>Sexo</label><br>
-                                                <?=
-                                                Html::dropDownList("", null, [ '1'=>'H','0'=>'M'], ["class" => "form-control", "id"=>"cap_sexo"]);
-                                                ?>
-                                            </div>
-                                            <div class="col-xs-2">
-                                                <label class="control-label" for="botonOk">&nbsp;</label>
-                                                <button type="button" id="btnAgregar" onclick="agregarArete(<?=$editando?>)" class="btn btn-info btn-flat col-xs-12" style="color: white; border-color: #942626; background-color: #942626";">Agregar</button>
-                                            </div>
-
                                             <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <label>Identificador</label><br>
+                                                        <input class="form-control" maxlength="10" id="cap_are" autocomplete="off" onkeyup="buscarArete()" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Ej. 1409600001"  <?php if($bloqueo) echo "readonly";?> autofocus>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label>Edad</label><br>
+                                                        <input class="form-control"  id="cap_edad" style="margin-left: 2px; 2px; text-align:left" autocomplete="off">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for="raza">Raza</label>
+                                                        <label for="raza2"></label>
+                                                        <?=
+                                                        '<div class="input-group input-daterange">'.
+                                                        Html::dropDownList("", null, \app\models\Razas::getAllRazas(1), ["class" => "form-control", "id"=>"cap_raza"]).
+                                                        '<span class="input-group-addon kv-field-separator">/</span>'.
+                                                        Html::dropDownList("", null, \app\models\Razas::getAllRazas(1), ["class" => "form-control", "id"=>"cap_raza2", "prompt" => "..."]).
+                                                        '</div>'
+                                                        ?>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label>Sexo</label><br>
+                                                        <?=
+                                                        Html::dropDownList("", null, [ '1'=>'H','0'=>'M'], ["class" => "form-control", "id"=>"cap_sexo"]);
+                                                        ?>
+                                                    </div>
+                                                    <div class="col-xs-2">
+                                                        <label class="control-label" for="botonOk">&nbsp;</label>
+                                                        <button type="button" id="btnAgregar" onclick="agregarArete(<?=$editando?>)" class="btn btn-info btn-flat col-xs-12" style="color: white; border-color: #942626; background-color: #942626";">Agregar</button>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-md-5">
+                                                        <div class="panel panel-info" style="display: block">
+                                                            <div class="panel-heading" id="panel-info-header">TB</div>
+                                                            <div class="panel-body">
+                                                                    <div class="col-md-6">
+                                                                        <label>Folio</label><br>
+                                                                        <input class="form-control" maxlength="10" id="cap_tb" autocomplete="off" onkeyup="buscarTBFolio()" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Ej. 1409600001"  <?php if($bloqueo) echo "readonly";?> autofocus>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <label>Resultado</label><br>
+                                                                        <input class="form-control" maxlength="10" id="cap_res_tb" autocomplete="off" onkeyup="buscarTBResultadoFolio()" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Ej. 1409600001"  <?php if($bloqueo) echo "readonly";?> autofocus>
+                                                                    </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-5">
+                                                        <div class="panel panel-info" style="display: block">
+                                                            <div class="panel-heading" id="panel-info-header">BR</div>
+                                                            <div class="panel-body">
+                                                                <div class="col-md-6">
+                                                                    <label>Folio</label><br>
+                                                                    <input class="form-control" maxlength="10" id="cap_br" autocomplete="off" onkeyup="buscarBRFolio()" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Ej. 1409600001"  <?php if($bloqueo) echo "readonly";?> autofocus>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label>Resultado</label><br>
+                                                                    <input class="form-control" maxlength="10" id="cap_res_br" autocomplete="off" onkeyup="buscarResultadoBRFolio()" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Ej. 1409600001"  <?php if($bloqueo) echo "readonly";?> autofocus>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <br>
 
                                 <div class="row">
 
@@ -436,11 +468,5 @@ if($model->isNewRecord){
                             <?php ActiveForm::end(); ?>
                         </div>
                     </div>
-                </div>
-            </div>
-<?php
-
-
-
 
 
