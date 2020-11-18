@@ -2,13 +2,16 @@
 
 namespace app\controllers;
 
+use app\models\Aretes;
 use app\models\Estados;
 use app\models\EstatusSanitario;
 use app\models\EstatusSanitarioEstatal;
 use app\models\EstatusSenasica;
 use app\models\EstatusUsda;
 use app\models\ExcepcionesEstatusSanitario;
+use app\models\ExportacionAretes;
 use app\models\Ganaderos;
+use app\models\InternacionAretes;
 use app\models\LocalidadesZac;
 use app\models\Municipios;
 use app\models\PropietarioUnidad;
@@ -258,8 +261,91 @@ LIMIT 20
         }else
             return -1;
     }
+    public function actionAgregararete($numero, $edad, $raza, $raza2, $sexo, $especie, $solicitud){
+        $arete_int = new ExportacionAretes();
+        $busqueda = Aretes::find()
+            ->where('r02_numero=:num', [':num'=>$numero])
+            ->andWhere('r02_especie=:esp', [':esp'=>$especie])
+            ->one();
+        if($solicitud==-1)
+            $arete_int->p11_id = null;
+        else
+            $arete_int->p11_id = $solicitud;
+
+
+        if($busqueda)
+            $arete_int->r02_id = $busqueda->r02_id;
+        else
+            $arete_int->r02_id = 20876;
+        $arete_int->r28_numero = $numero;
+        $arete_int->r28_edad = $edad;
+        $arete_int->r28_raza = $raza;
+        $arete_int->r28_raza2 = $raza2;
+        $arete_int->r28_sexo = $sexo;
+        $arete_int->r28_especie = $especie;
+        $arete_int->r28_usuAlta = Yii::$app->user->getId();
+        if($arete_int->save())
+            return 1;
+        else
+            return 0;
+    }
+
+    public function  actionGetunidad($usuario){
+        $query = \app\models\Upp::findBySql("
+SELECT 
+*
+FROM r01_upp r01
+JOIN r04_prop_unit r04 on r04.r01_id=r01.r01_id
+WHERE r04.c01_id=(select c01_id from c01_ganaderos where user_id='".$usuario."') 
+")->one();
+        if($query)
+            return $query->r01_id;
+        else
+            return 0;
+    }
+
+    public function actionGetaretebus($arete, $especie){
+        $arete = Aretes::find()->where('r02_numero=:numero', [':numero'=>$arete])->andWhere('r02_especie=:especie',[':especie'=>$especie])->one();
+
+        if($arete){
+            $arr[0] = $arete->r02_edad;
+            $arr[1] = $arete->r02_raza;
+            $arr[2] = $arete->r02_raza2;
+            $arr[3] = $arete->r02_sexo;
+            return json_encode($arr);
+        }else{
+            //return false;
+            $arr[0] = false;
+            return json_encode($arr);
+        }
+
+    }
+
+    public function actionExistearete($numero, $especie, $solicitud){
+        if($solicitud==-1){
+            $registros = ExportacionAretes::find()
+                ->where('r28_numero=:num', [':num'=>$numero])
+                ->andWhere('r28_especie=:esp', [':esp'=>$especie])
+                ->andWhere(['r28_usuAlta'=>Yii::$app->getUser()->getId()])
+                ->andWhere('p11_id is null')
+                ->count();
+        }else{
+            $registros = ExportacionAretes::find()
+                ->where('r28_numero=:num', [':num'=>$numero])
+                ->andWhere('r28_especie=:esp', [':esp'=>$especie])
+                ->andWhere('p11_id=:sol', [':sol'=>$solicitud])
+                ->count();
+        }
+
+        if($registros>0)
+            return 1;
+        else
+            return 0;
+
+    }
 
 }
+
 
 
 

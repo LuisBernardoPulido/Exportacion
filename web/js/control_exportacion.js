@@ -119,7 +119,7 @@ function buscarArete(){
         parametro = {"arete": arete, "especie": especie};
         $.ajax({
             type: 'GET',
-            url: 'index.php?r=internacion/getaretebus',
+            url: 'index.php?r=exportacion/getaretebus',
             data: parametro,
             dataType: "json",
             success: function (res) {
@@ -131,7 +131,7 @@ function buscarArete(){
                     edad_def = {"arete": arete, "especie": especie};
                     $.ajax({
                         type: 'GET',
-                        url: 'index.php?r=internacion/getfechadef',
+                        url: 'index.php?r=exportacion/getfechadef',
                         data: edad_def,
                         success: function (existencia) {
                             if(existencia==1){
@@ -147,33 +147,7 @@ function buscarArete(){
             }
         });
     }else if(arete.length==10 && !especie){
-        mensajeErrorTexto("No se ha seleccionado una especie");
-    }
-}
-
-function agregarRuta(){
-    var editando = document.getElementById("editando").value;
-    var edo = document.getElementById("pvi_edo").value;
-    var pvi = document.getElementById('pvi_id').value;
-    if(validarRuta(edo, pvi)){
-        parametro = {"solicitud":editando, "edo": edo, "pvi":pvi};
-        $.ajax({
-            type: 'GET',
-            url: 'index.php?r=internacion/agregarruta',
-            data: parametro,
-            success: function (res) {
-                if(res==1){
-                    limpiarRuta();
-                    $.pjax.reload({container: "#tabla_pvis", timeout: false});
-                }else if(res==0){
-                    mensajeErrorTexto("Ocurrió un error al guardar.");
-                }else if(res==-1){
-                    mensajeErrorTexto("La ruta ya está en la lista.");
-                    limpiarRuta();
-                }
-
-            }
-        });
+        //mensajeErrorTexto("No se ha seleccionado una especie");
     }
 }
 
@@ -183,7 +157,7 @@ function agregarArete(editando){
     var raza = document.getElementById('cap_raza').value;
     var raza2 = document.getElementById('cap_raza2').value;
     var sexo = document.getElementById('cap_sexo').value;
-    var especie = document.getElementById('especc').value;
+    var especie = 1;
 
     if(validarCampos(numero, edad, raza, sexo, especie)){
         parametro = {"numero": numero, "especie":especie, "solicitud":editando};

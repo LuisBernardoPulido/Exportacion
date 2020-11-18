@@ -330,11 +330,13 @@ if($model->isNewRecord){
                                                             <div class="panel-body">
                                                                     <div class="col-md-6">
                                                                         <label>Folio</label><br>
-                                                                        <input class="form-control" maxlength="10" id="cap_tb" autocomplete="off" onkeyup="buscarTBFolio()" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Ej. 1409600001"  <?php if($bloqueo) echo "readonly";?> autofocus>
+                                                                        <input class="form-control" maxlength="10" id="cap_tb" autocomplete="off" onkeyup="buscarTBFolio()" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder=""  <?php if($bloqueo) echo "readonly";?> autofocus>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <label>Resultado</label><br>
-                                                                        <input class="form-control" maxlength="10" id="cap_res_tb" autocomplete="off" onkeyup="buscarTBResultadoFolio()" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Ej. 1409600001"  <?php if($bloqueo) echo "readonly";?> autofocus>
+                                                                        <?=
+                                                                        Html::dropDownList("", null, [ 'N'=>'NEGATIVO', 'S'=>'SOSPECHOSO', 'R'=>'REACTIVO', '*'=>'*'], ["class" => "form-control", "onkeyup"=> "buscarTBResultadoFolio()", "id"=>"cap_res_tb"]);
+                                                                        ?>
                                                                     </div>
 
                                                             </div>
@@ -347,11 +349,14 @@ if($model->isNewRecord){
                                                             <div class="panel-body">
                                                                 <div class="col-md-6">
                                                                     <label>Folio</label><br>
-                                                                    <input class="form-control" maxlength="10" id="cap_br" autocomplete="off" onkeyup="buscarBRFolio()" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Ej. 1409600001"  <?php if($bloqueo) echo "readonly";?> autofocus>
+                                                                    <input class="form-control" maxlength="10" id="cap_br" autocomplete="off" onkeyup="buscarBRFolio()" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder=""  <?php if($bloqueo) echo "readonly";?> autofocus>
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label>Resultado</label><br>
-                                                                    <input class="form-control" maxlength="10" id="cap_res_br" autocomplete="off" onkeyup="buscarResultadoBRFolio()" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Ej. 1409600001"  <?php if($bloqueo) echo "readonly";?> autofocus>
+                                                                    <?=
+                                                                    Html::dropDownList("", null, \app\models\Resultados::getResultadoTipo(0), ["class" => "form-control", "id"=>"cap_res_br", "onkeyup"=> "buscarBRResultadoFolio()"]);
+                                                                    ?>
+
                                                                 </div>
                                                             </div>
                                                         </div>

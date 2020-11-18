@@ -11,6 +11,7 @@ use Yii;
  * @property integer $r28_especie
  * @property integer $p11_id
  * @property string $r28_numero
+ * @property integer $r02_id
  * @property string $r28_edad
  * @property string $r28_raza
  * @property string $r28_raza2
@@ -44,11 +45,12 @@ class ExportacionAretes extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['r28_especie', 'p11_id', 'r28_usuAlta', 'r28_usuMod'], 'integer'],
+            [['r28_especie', 'p11_id', 'r28_usuAlta', 'r02_id', 'r28_usuMod'], 'integer'],
             [['p11_id', 'r28_numero'], 'required'],
             [['r28_fecAlta', 'r28_fecMod'], 'safe'],
             [['r28_numero', 'r28_edad', 'r28_raza', 'r28_raza2', 'r28_sexo', 'r28_tb', 'r28_br', 'r28_resultadotb', 'r28_resultadobr', 'r28_factura', 'r28_aux'], 'string', 'max' => 50],
-            [['p11_id'], 'exist', 'skipOnError' => true, 'targetClass' => P11SolicitudExportacion::className(), 'targetAttribute' => ['p11_id' => 'p11_id']],
+            [['p11_id'], 'exist', 'skipOnError' => true, 'targetClass' => Exportacion::className(), 'targetAttribute' => ['p11_id' => 'p11_id']],
+            [['r02_id'], 'exist', 'skipOnError' => true, 'targetClass' => ExportacionAretes::className(), 'targetAttribute' => ['r02_id' => 'r02_id']],
         ];
     }
 
@@ -61,6 +63,7 @@ class ExportacionAretes extends \yii\db\ActiveRecord
             'r28_id' => 'ID',
             'r28_especie' => 'ESPECIE',
             'p11_id' => 'Solicitud',
+            'r02_id' => 'Arete ID',
             'r28_numero' => 'Numero de arete',
             'r28_edad' => 'Edad',
             'r28_raza' => 'Raza',
@@ -85,5 +88,12 @@ class ExportacionAretes extends \yii\db\ActiveRecord
     public function getP11()
     {
         return $this->hasOne(P11SolicitudExportacion::className(), ['p11_id' => 'p11_id']);
+    }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getR02()
+    {
+        return $this->hasOne(R02Aretes::className(), ['r02_id' => 'r02_id']);
     }
 }
