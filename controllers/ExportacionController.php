@@ -261,7 +261,7 @@ LIMIT 20
         }else
             return -1;
     }
-    public function actionAgregararete($numero, $edad, $raza, $raza2, $sexo, $especie, $solicitud){
+    public function actionAgregararete($numero, $edad, $raza, $raza2, $sexo, $especie, $solicitud, $tb, $br, $tb_res, $br_res, $factura){
         $arete_int = new ExportacionAretes();
         $busqueda = Aretes::find()
             ->where('r02_numero=:num', [':num'=>$numero])
@@ -276,18 +276,23 @@ LIMIT 20
         if($busqueda)
             $arete_int->r02_id = $busqueda->r02_id;
         else
-            $arete_int->r02_id = 20876;
-        $arete_int->r28_numero = $numero;
-        $arete_int->r28_edad = $edad;
-        $arete_int->r28_raza = $raza;
-        $arete_int->r28_raza2 = $raza2;
-        $arete_int->r28_sexo = $sexo;
-        $arete_int->r28_especie = $especie;
-        $arete_int->r28_usuAlta = Yii::$app->user->getId();
-        if($arete_int->save())
-            return 1;
-        else
-            return 0;
+            $arete_int->r02_id = null;
+            $arete_int->r28_numero = $numero;
+            $arete_int->r28_edad = $edad;
+            $arete_int->r28_raza = $raza;
+            $arete_int->r28_raza2 = $raza2;
+            $arete_int->r28_sexo = $sexo;
+            $arete_int->r28_especie = $especie;
+            $arete_int->r28_tb = $tb;
+            $arete_int->r28_resultadotb = $tb_res;
+            $arete_int->r28_resultadobr = $br_res;
+            $arete_int->r28_br = $br;
+            $arete_int->r28_factura = $factura;
+            $arete_int->r28_usuAlta = Yii::$app->user->getId();
+            if($arete_int->save())
+                return 1;
+            else
+                return var_dump($arete_int->errors);
     }
 
     public function  actionGetunidad($usuario){
@@ -304,6 +309,23 @@ WHERE r04.c01_id=(select c01_id from c01_ganaderos where user_id='".$usuario."')
             return 0;
     }
 
+    public function actionDeletearete($id){
+        $arete = ExportacionAretes::findOne($id);
+        if($arete->delete()) {
+            $mensaje = 'Eliminado correctamente';
+            $error = 0;
+        } else {
+            $error = 1;
+            $mensaje = 'Ocurrio un error';
+        }
+
+        $respuesta = ['error' => $error, 'msj' => $mensaje];
+        $respuesta = json_encode($respuesta);
+
+        echo "var accion = $.extend({},{$respuesta})";
+
+        Yii::$app->end();
+    }
     public function actionGetaretebus($arete, $especie){
         $arete = Aretes::find()->where('r02_numero=:numero', [':numero'=>$arete])->andWhere('r02_especie=:especie',[':especie'=>$especie])->one();
 

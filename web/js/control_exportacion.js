@@ -157,6 +157,11 @@ function agregarArete(editando){
     var raza = document.getElementById('cap_raza').value;
     var raza2 = document.getElementById('cap_raza2').value;
     var sexo = document.getElementById('cap_sexo').value;
+    var tb = document.getElementById('cap_tb').value;
+    var tb_res = document.getElementById('cap_res_tb').value;
+    var br_res = document.getElementById('cap_res_br').value;
+    var br = document.getElementById('cap_br').value;
+    var factura = document.getElementById('cap_factura').value;
     var especie = 1;
 
     if(validarCampos(numero, edad, raza, sexo, especie)){
@@ -167,7 +172,7 @@ function agregarArete(editando){
             data: parametro,
             success: function (res2) {
                 if(res2==0){
-                    parametro = {"numero": numero, "edad":edad, "raza":raza, "raza2":raza2, "sexo":sexo, "especie":especie, "solicitud":editando};
+                    parametro = {"numero": numero, "edad":edad, "raza":raza, "raza2":raza2, "sexo":sexo, "especie":especie, "solicitud":editando, "tb":tb, "br":br, "tb_res":tb_res, "br_res":br_res, "factura":factura};
                     $.ajax({
                         type: 'GET',
                         url: 'index.php?r=exportacion/agregararete',
@@ -176,10 +181,10 @@ function agregarArete(editando){
                             if(res2==1){
                                 limpiarArete();
                             }else{
+                                alert(res2)
                                 mensajeErrorTexto("Error.");
                             }
                             $.pjax.reload({container: "#tabla_aretes", timeout: false});
-
                         }
                     });
                 }else{

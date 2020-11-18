@@ -93,10 +93,9 @@ class Exportacion extends \yii\db\ActiveRecord
     }
 
     public static function getAretesNo(){
-        $aretes = Aretes::find()
-            ->where('r01_id=:numero', [':numero'=>0])
-            ->andWhere('r02_usuAlta=:user',[':user'=>Yii::$app->user->getId()])
-            ->andWhere('r02_mostrar!=-1');
+        $aretes = ExportacionAretes::find()
+            ->where('r28_usuAlta=:usr', [':usr'=>Yii::$app->user->getId()])
+            ->andWhere('p11_id is null');
 
         $dataprovider = new ActiveDataProvider([
             'query' => $aretes,

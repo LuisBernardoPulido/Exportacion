@@ -234,7 +234,7 @@ if($model->isNewRecord){
                 <div class="row" >
                     <div class="col-md-12">
                         <div class="panel panel-info" style="display: block">
-                            <div class="panel-heading" id="panel-info-header">Detalle de solicitud</div>
+                            <div class="panel-heading" id="panel-info-header">Detalle de documentación</div>
                             <div class="panel-body">
                                 <div class="row">
                                     <div class="col-md-4">
@@ -256,22 +256,13 @@ if($model->isNewRecord){
                                                 ],
                                             ]) ?>
                                     </div>
-
                                 </div>
-
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <?= $form->field($model, 'p11_motivo')->widget(\kartik\widgets\Select2::className(),[
-                                            'data' => \app\models\MotivoRemo::getAllMotivos(),
-                                            'options' => ['placeholder' => 'Seleccionar motivo...', 'onchange'=>'buscarRequisitos()','id'=>'id_motivo', 'disabled'=>$bloqueo],
-                                            'pluginOptions' => [
-                                                'allowClear' => true
-                                            ],
-                                        ]) ?>
+                                        <?= $form->field($model, 'p11_motivo')->textInput(['maxlength' => true, 'value'=> 'EXPORTACIÓN', 'readonly'=> true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
                                     </div>
                                     <div class="col-md-4">
                                         <?= $form->field($model, 'p11_aux')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
-
                                     </div>
                                 </div>
 
@@ -324,7 +315,7 @@ if($model->isNewRecord){
                                                 </div>
                                                 <br>
                                                 <div class="row">
-                                                    <div class="col-md-5">
+                                                    <div class="col-md-4">
                                                         <div class="panel panel-info" style="display: block">
                                                             <div class="panel-heading" id="panel-info-header">TB</div>
                                                             <div class="panel-body">
@@ -343,7 +334,7 @@ if($model->isNewRecord){
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-md-5">
+                                                    <div class="col-md-4">
                                                         <div class="panel panel-info" style="display: block">
                                                             <div class="panel-heading" id="panel-info-header">BR</div>
                                                             <div class="panel-body">
@@ -361,12 +352,15 @@ if($model->isNewRecord){
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-2">
+                                                        <label>Factura</label><br>
+                                                        <input class="form-control" maxlength="10" id="cap_factura" autocomplete="off" placeholder=""  <?php if($bloqueo) echo "readonly";?> autofocus>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="row">
 
                                     <div class="col-md-12">
@@ -389,7 +383,7 @@ if($model->isNewRecord){
                                                         "width"=>"10%",
                                                     ],
                                                     'value'=>function($info){
-                                                        return $info->r30_numero;
+                                                        return $info->r28_numero;
                                                     },
 
                                                 ],
@@ -400,7 +394,7 @@ if($model->isNewRecord){
                                                         "width"=>"10%",
                                                     ],
                                                     'value'=>function($info){
-                                                        return $info->r30_edad;
+                                                        return $info->r28_edad;
                                                     },
 
                                                 ],
@@ -412,9 +406,9 @@ if($model->isNewRecord){
                                                         "width"=>"10%",
                                                     ],
                                                     'value'=>function($info){
-                                                        $raza = \app\models\Razas::findOne($info->r30_raza)->c06_clave;
-                                                        if($info->r30_raza2)
-                                                            $raza .=  '/'.\app\models\Razas::findOne($info->r30_raza2)->c06_clave;
+                                                        $raza = \app\models\Razas::findOne($info->r28_raza)->c06_clave;
+                                                        if($info->r28_raza2)
+                                                            $raza .=  '/'.\app\models\Razas::findOne($info->r28_raza2)->c06_clave;
                                                         return $raza;
                                                     },
 
@@ -426,10 +420,43 @@ if($model->isNewRecord){
                                                         "width"=>"10%",
                                                     ],
                                                     'value'=>function($info){
-                                                        if($info->r30_sexo==1)
+                                                        if($info->r28_sexo==1)
                                                             return 'Hembra';
                                                         else
                                                             return 'Macho';
+                                                    },
+
+                                                ],
+                                                [
+                                                    'label'=>'Folio TB',
+                                                    'contentOptions'=>[
+                                                        "align"=>"center",
+                                                        "width"=>"10%",
+                                                    ],
+                                                    'value'=>function($info){
+                                                        return $info->r28_tb;
+                                                    },
+
+                                                ],
+                                                [
+                                                    'label'=>'Folio BR',
+                                                    'contentOptions'=>[
+                                                        "align"=>"center",
+                                                        "width"=>"10%",
+                                                    ],
+                                                    'value'=>function($info){
+                                                        return $info->r28_br;
+                                                    },
+
+                                                ],
+                                                [
+                                                    'label'=>'Factura',
+                                                    'contentOptions'=>[
+                                                        "align"=>"center",
+                                                        "width"=>"10%",
+                                                    ],
+                                                    'value'=>function($info){
+                                                        return $info->r28_factura;
                                                     },
 
                                                 ],
@@ -442,21 +469,17 @@ if($model->isNewRecord){
                                                     'value' => function($info) {
                                                         return Html::a('<span class="glyphicon glyphicon-trash"></span>',false, [
                                                             'class'=>'ajaxDelete',
-                                                            'url'=> \yii\helpers\Url::toRoute(['internacion/deletearete','id'=>$info->r30_id]),
+                                                            'url'=> \yii\helpers\Url::toRoute(['exportacion/deletearete','id'=>$info->r28_id]),
                                                             'grid'=>'tabla_aretes',
                                                             'param'=>null,
                                                             'title' => Yii::t('yii', 'Delete')]);
                                                     }
                                                 ],
-
                                             ],
                                         ]); ?>
                                         <?php \yii\widgets\Pjax::end(); ?>
-
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>

@@ -46,11 +46,10 @@ class ExportacionAretes extends \yii\db\ActiveRecord
     {
         return [
             [['r28_especie', 'p11_id', 'r28_usuAlta', 'r02_id', 'r28_usuMod'], 'integer'],
-            [['p11_id', 'r28_numero'], 'required'],
+            [['r28_numero'], 'required'],
             [['r28_fecAlta', 'r28_fecMod'], 'safe'],
             [['r28_numero', 'r28_edad', 'r28_raza', 'r28_raza2', 'r28_sexo', 'r28_tb', 'r28_br', 'r28_resultadotb', 'r28_resultadobr', 'r28_factura', 'r28_aux'], 'string', 'max' => 50],
-            [['p11_id'], 'exist', 'skipOnError' => true, 'targetClass' => Exportacion::className(), 'targetAttribute' => ['p11_id' => 'p11_id']],
-            [['r02_id'], 'exist', 'skipOnError' => true, 'targetClass' => ExportacionAretes::className(), 'targetAttribute' => ['r02_id' => 'r02_id']],
+            //[['r02_id'], 'exist', 'skipOnError' => true, 'targetClass' => ExportacionAretes::className(), 'targetAttribute' => ['r02_id' => 'r02_id']],
         ];
     }
 
@@ -82,13 +81,6 @@ class ExportacionAretes extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getP11()
-    {
-        return $this->hasOne(P11SolicitudExportacion::className(), ['p11_id' => 'p11_id']);
-    }
     /**
      * @return \yii\db\ActiveQuery
      */

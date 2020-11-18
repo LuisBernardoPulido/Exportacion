@@ -60,4 +60,9 @@ class MotivoRemo extends \yii\db\ActiveRecord
 
         return ArrayHelper::map($motivos, 'c14_id', 'c14_descrip');
     }
+    public static function getAllMotivoss(){
+        $motivos = MotivoRemo::find()->where('c14_id!=1')->all();
+
+        return ArrayHelper::map($motivos, 'c14_id', 'c14_descrip');
+    }
 }
