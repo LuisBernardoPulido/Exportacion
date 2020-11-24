@@ -146,11 +146,9 @@ $config = [
             'site/local-storange',
             'site/retrieve',
             'debug/*',
-            'solicitudes/*',
             'exportacion/*',
+            'solicitudes-exportaciones/*',
             'gii/*',
-
-
             'some-controller/some-action',
         ]
     ],

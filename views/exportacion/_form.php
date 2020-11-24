@@ -33,7 +33,7 @@ if($model->isNewRecord){
 }
 ?>
     <div class="panel panel-primary" id="panel-primary">
-        <div class="panel-heading" id="panel-heading-mpc">Datos de la solicitud de exportación</div>
+        <div class="panel-heading" id="panel-heading-mpc">Datos de ingreso</div>
         <div class="panel-body">
             <div class="internacion-form">
                 <?php $form = ActiveForm::begin([
@@ -326,7 +326,7 @@ if($model->isNewRecord){
                                                                     <div class="col-md-6">
                                                                         <label>Resultado</label><br>
                                                                         <?=
-                                                                        Html::dropDownList("", null, [ 'N'=>'NEGATIVO', 'S'=>'SOSPECHOSO', 'R'=>'REACTIVO', '*'=>'*'], ["class" => "form-control", "onkeyup"=> "buscarTBResultadoFolio()", "id"=>"cap_res_tb"]);
+                                                                        Html::dropDownList("", null, [ '4'=>'NEGATIVO', '5'=>'SOSPECHOSO', '6'=>'REACTIVO', '7'=>'*'], ["class" => "form-control", "onkeyup"=> "buscarTBResultadoFolio()", "id"=>"cap_res_tb"]);
                                                                         ?>
                                                                     </div>
 

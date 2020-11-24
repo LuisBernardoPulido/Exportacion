@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Exportacion */
 
-$this->title = 'Solicitud de exportación';
+$this->title = 'Ingreso de ganado';
 $this->params['breadcrumbs'][] = ['label' => 'Exportacions', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

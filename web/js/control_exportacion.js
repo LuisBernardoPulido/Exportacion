@@ -113,7 +113,7 @@ function unidadDestino(){
 
 function buscarArete(){
     var arete = document.getElementById('cap_are').value;
-    var especie = document.getElementById('especc').value;
+    var especie = 1;
 
     if(arete.length==10 && especie) {
         parametro = {"arete": arete, "especie": especie};
@@ -128,6 +128,11 @@ function buscarArete(){
                     document.getElementById('cap_raza').value = res[1];
                     document.getElementById('cap_raza2').value = res[2];
                     document.getElementById('cap_sexo').value = res[3];
+                    document.getElementById('cap_tb').value = res[5];
+                    document.getElementById('cap_res_tb').value = res[4];
+                    document.getElementById('cap_br').value = res[7];
+                    document.getElementById('cap_res_br').value = res[6];
+
                     edad_def = {"arete": arete, "especie": especie};
                     $.ajax({
                         type: 'GET',
@@ -249,6 +254,9 @@ function limpiarArete(){
     //document.getElementById('cap_edad').value = '';
     //document.getElementById('cap_raza').value = '';
     document.getElementById('cap_raza2').value = '';
+    document.getElementById('cap_tb').value = '';
+    document.getElementById('cap_br').value = '';
+    document.getElementById('cap_factura').value = '';
     //document.getElementById('cap_sexo').value = '';
 }
 

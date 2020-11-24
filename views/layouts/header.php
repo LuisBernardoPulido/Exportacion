@@ -8,8 +8,6 @@ $this->registerJsFile(Yii::$app->request->baseUrl.'/bootstrap-select-1.12.2/boot
 $this->registerJsFile(Yii::$app->request->baseUrl.'/bootstrap-select-1.12.2/bootstrap-select.js', ['depends'=>[\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile('/vendor/igorescobar/jquery-mask-plugin/src/jquery.mask.js', ['depends'=>[\yii\web\JqueryAsset::className()]]);
 $this->registerJsFile(Yii::$app->request->baseUrl . '/js/control_main.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
-//$this->registerJsFile('/SIFOPE/kartik-v/yii2-widget-select2/assets/js/select2.full.js', ['depends'=>[\yii\web\JqueryAsset::className()]]);
-//$values = $headers->remove('X-Frame-Options');
 /* @var $this \yii\web\View */
 /* @var $content string */
 
@@ -29,15 +27,13 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/control_main.js', ['dep
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="../web/index.php">Inicio <span class="sr-only">(current)</span></a></li>
                     <li><a href="../web/index.php?r=perfil-usuario%2Fview&id=1">Perfil</a></li>
-                    <li><a href="../web/index.php?r=exportacion/create">Generar solicitud</a></li>
+                    <li><a href="../web/index.php?r=exportacion/create">Ingresar ganado</a></li>
+                    <li><a href="../web/index.php?r=solicitudes-exportaciones/create">Generar solicitud</a></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Opciones <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="../web/index.php?r=solicitudes/create">Generar solicitud</a></li>
-                            <li><a href="#">Consultar estatus de solicitud</a></li>
-
-                            <li class="divider"></li>
                             <li><a href="#">Mis solicitudes</a></li>
+                            <li><a href="#">Mis unidades</a></li>
                             <li class="divider"></li>
                             <li><a href="#">Reportes</a></li>
                         </ul>

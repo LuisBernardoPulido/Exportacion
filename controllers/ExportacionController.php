@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\Aretes;
+use app\models\Brucelosis;
 use app\models\Estados;
 use app\models\EstatusSanitario;
 use app\models\EstatusSanitarioEstatal;
@@ -15,6 +16,9 @@ use app\models\InternacionAretes;
 use app\models\LocalidadesZac;
 use app\models\Municipios;
 use app\models\PropietarioUnidad;
+use app\models\Resultados;
+use app\models\Tuberculosis;
+use app\models\TuberculosisAretes;
 use app\models\Upp;
 use app\models\Zonas;
 use Yii;
@@ -334,9 +338,30 @@ WHERE r04.c01_id=(select c01_id from c01_ganaderos where user_id='".$usuario."')
             $arr[1] = $arete->r02_raza;
             $arr[2] = $arete->r02_raza2;
             $arr[3] = $arete->r02_sexo;
+
+            //Obtenemos el ultimo tb con su resultado
+            $tb = \app\models\TuberculosisAretes::findBySql("SELECT * FROM r06_tuberculosis_aretes WHERE r02_id = ".$arete->r02_id." ORDER BY r06_frealizacion DESC LIMIT 1")->one();
+           if($tb){
+               $arr[4] = $tb->r06_diagnostico;
+               $arr[5] = Tuberculosis::findOne($tb->p03_tb)->p03_folio;
+           }else{
+               $arr[4] = null;
+               $arr[5] = "";
+           }
+           //
+            //Obtenemos el ultimo BR con su resultado
+            $br = \app\models\BrucelosisAretes::findBySql("SELECT * FROM r07_brucelosis_aretes WHERE r02_id = ".$arete->r02_id." ORDER BY r07_frealizacion DESC LIMIT 1")->one();
+            if($br){
+                $arr[6] = $br->r07_resultado;
+                $arr[7] = Brucelosis::findOne($br->p03_br)->p03_folio;
+            }else{
+                $arr[6] = null;
+                $arr[7] = "";
+            }
+
+
             return json_encode($arr);
         }else{
-            //return false;
             $arr[0] = false;
             return json_encode($arr);
         }
@@ -363,6 +388,16 @@ WHERE r04.c01_id=(select c01_id from c01_ganaderos where user_id='".$usuario."')
             return 1;
         else
             return 0;
+
+    }
+    public function actionGetfechadef($arete, $especie){
+        $arete = Aretes::find()->where('r02_numero=:numero', [':numero'=>$arete])->andWhere('r02_especie=:especie',[':especie'=>$especie])->one();
+
+        if($arete->p01_isfechadefinitiva==1){
+            return 1;
+        }else{
+            return 0;
+        }
 
     }
 

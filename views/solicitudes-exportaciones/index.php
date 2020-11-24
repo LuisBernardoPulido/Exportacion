@@ -4,24 +4,28 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\search\ExportacionSearch */
+/* @var $searchModel app\models\search\SolicitudesExportacionesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Ingresos';
+$this->title = 'Solicitudes Exportaciones';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="exportacion-index">
+<div class="solicitudes-exportaciones-index">
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'p11_id',
-            'p11_guia',
-            'p11_fecha',
-            'r01_origen',
-            'r01_destino',
+            'p12_id',
+            'p12_sexo',
+            'p12_aux',
+            'p12_aux2',
+            'p12_usuAlta',
+            // 'p12_fecAlta',
+            // 'p12_usuMod',
+            // 'p12_fecMod',
+
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
