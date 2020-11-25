@@ -10,19 +10,45 @@ use yii\widgets\Pjax;
 $this->title = 'Ingresos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<div class="col-md-12">
+    <div class="panel panel-primary" id="panel-primary-mpc">
+        <div class="panel-heading" id="panel-heading-mpc">Lista de ingresos para exportación</div>
+        <div class="panel-body">
 <div class="exportacion-index">
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'p11_id',
             'p11_guia',
             'p11_fecha',
-            'r01_origen',
-            'r01_destino',
+
+            [
+                'attribute'=>'r01_origen',
+                /*'contentOptions' => [
+                    'width'=>'20%',
+                ],*/
+                'value'=>function($model){
+                    $unidad = \app\models\Upp::findOne($model->r01_origen);
+                    return $unidad->r01_clave.' - '.$unidad->r01_nombre;
+                }
+            ],
+            [
+                'attribute'=>'r01_destino',
+                /*'contentOptions' => [
+                    'width'=>'20%',
+                ],*/
+                'value'=>function($model){
+                    $unidad = \app\models\Upp::findOne($model->r01_destino);
+                    return $unidad->r01_clave.' - '.$unidad->r01_nombre;
+                }
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>
+        </div>
+    </div>
+</div>
+</div>
+

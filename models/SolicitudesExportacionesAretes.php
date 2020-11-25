@@ -39,7 +39,6 @@ class SolicitudesExportacionesAretes extends \yii\db\ActiveRecord
             [['r28_id', 'r29_resultado', 'r29_razon', 'r29_usuAlta', 'r29_usuMod'], 'integer'],
             [['r29_fecAlta', 'r29_fecMod'], 'safe'],
             [['r28_id'], 'exist', 'skipOnError' => true, 'targetClass' => ExportacionAretes::className(), 'targetAttribute' => ['r28_id' => 'r28_id']],
-            [['p12_id'], 'exist', 'skipOnError' => true, 'targetClass' => P12Exportaciones::className(), 'targetAttribute' => ['p12_id' => 'p12_id']],
 
         ];
     }
@@ -74,6 +73,6 @@ class SolicitudesExportacionesAretes extends \yii\db\ActiveRecord
      */
     public function getP12()
     {
-        return $this->hasOne(P12Exportaciones::className(), ['p12_id' => 'p12_id']);
+        return $this->hasOne(Exportacion::className(), ['p12_id' => 'p12_id']);
     }
 }

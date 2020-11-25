@@ -2,6 +2,9 @@
 
 namespace app\controllers;
 
+use app\models\Aretes;
+use app\models\ExportacionAretes;
+use app\models\SolicitudesExportacionesAretes;
 use Yii;
 use app\models\SolicitudesExportaciones;
 use app\models\search\SolicitudesExportacionesSearch;
@@ -56,6 +59,60 @@ class SolicitudesExportacionesController extends Controller
         ]);
     }
 
+    public function actionAgregararete($numero, $solicitud){
+        $arete_int = new SolicitudesExportacionesAretes();
+        $busqueda = ExportacionAretes::find()
+            ->where('r28_numero=:num', [':num'=>$numero])
+            ->one();
+        if($solicitud==-1)
+            $arete_int->p12_id = null;
+        else
+            $arete_int->p12_id = $solicitud;
+
+        if($busqueda){
+            $arete_int->r28_id = $busqueda->r28_id;
+            $arete_int->r29_resultado = 1;
+            $arete_int->r29_usuAlta = Yii::$app->user->getId();
+        }else{
+            $arete_int->r29_resultado = 0;
+            $arete_int->r28_id = null;
+            $arete_int->r29_usuAlta = Yii::$app->user->getId();
+        }
+        if($arete_int->save())
+            return 1;
+        else
+            return var_dump($arete_int->errors);
+    }
+
+    public function actionExistearete($numero, $solicitud){
+        if($solicitud==-1){
+            $busqueda = ExportacionAretes::find()
+                ->where('r28_numero=:num', [':num'=>$numero])
+                ->one();
+
+            if($busqueda){
+                $registros = SolicitudesExportacionesAretes::find()
+                    ->where('r29_id=:num', [':num'=>$busqueda->r28_id])
+                    ->andWhere(['r29_usuAlta'=>Yii::$app->getUser()->getId()])
+                    ->andWhere('p12_id is null')
+                    ->count();
+            }else{
+                return 2;
+            }
+
+        }else{
+            $registros = SolicitudesExportacionesAretes::find()
+                ->where('r29_id=:num', [':num'=>$busqueda->r28_id])
+                ->andWhere('p12_id=:sol', [':sol'=>$solicitud])
+                ->count();
+        }
+
+        if($registros>0)
+            return 1;
+        else
+            return 0;
+
+    }
     /**
      * Creates a new SolicitudesExportaciones model.
      * If creation is successful, the browser will be redirected to the 'view' page.

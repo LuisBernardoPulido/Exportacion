@@ -12,7 +12,10 @@ use app\models\EstatusUsda;
 use app\models\ExcepcionesEstatusSanitario;
 use app\models\ExportacionAretes;
 use app\models\Ganaderos;
+use app\models\Internacion;
 use app\models\InternacionAretes;
+use app\models\InternacionRequisitos;
+use app\models\InternacionRutaPvi;
 use app\models\LocalidadesZac;
 use app\models\Municipios;
 use app\models\PropietarioUnidad;
@@ -80,17 +83,41 @@ class ExportacionController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+
+    public function actionCreate($des=0, $msg=0)
     {
         $model = new Exportacion();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->p11_id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+
+            //$prod = Ganaderos::find()->where('user_id=:usr', [':usr'=>Yii::$app->user->getId()])->one();
+
+            $model->p11_usuAlta = Yii::$app->user->getId();
+
+            $aretes = ExportacionAretes::find()
+                ->where('r28_usuAlta=:usr', [':usr'=>Yii::$app->user->getId()])
+                ->andWhere('p11_id is null')->count();
+
+            $model->p11_aux = $aretes;
+            $this->asignarRegistros($model->p11_id);
+            $model->save();
+
+            return $this->redirect(['index','saved'=>$model->p11_id]);
         }
+
+        return $this->render('create', [
+            'model' => $model,
+            'des' => $des,
+            'msg' => $msg,
+        ]);
+
+    }
+
+    private function asignarRegistros($id){
+        $usuario = Yii::$app->getUser()->getId();
+        $aretes = Yii::$app->db->createCommand(
+            "UPDATE r28_exportacion_aretes SET p11_id=$id WHERE p11_id IS NULL AND r28_usuAlta=$usuario;"
+        )->execute();
     }
 
     /**

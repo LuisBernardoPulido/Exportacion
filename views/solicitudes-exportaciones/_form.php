@@ -1,5 +1,8 @@
 <?php
 
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/control_exportaciones_solicitudes.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerJsFile(Yii::$app->request->baseUrl . '/js/control_eliminar_aretes.js', ['depends' => [\yii\web\JqueryAsset::className()]]);
+$this->registerCssFile('css/estilo_exportacion.css');
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -25,7 +28,9 @@ if($model->isNewRecord){
 <div class="panel panel-primary" id="panel-primary">
     <div class="panel-heading" id="panel-heading-mpc">Datos de solicitud de exportación</div>
     <div class="panel-body">
+
         <?php $form = ActiveForm::begin(); ?>
+        <input type="hidden" id="editando" value="<?=$editando?>">
         <div class="row" >
             <div class="col-md-4">
                 <?= $form->field($model, 'p12_sexo')->widget(\kartik\widgets\Select2::className(),[
@@ -50,7 +55,7 @@ if($model->isNewRecord){
                                         <div class="row">
                                             <div class="col-md-3">
                                                 <label>Identificador</label><br>
-                                                <input class="form-control" maxlength="10" id="cap_are" autocomplete="off" onkeyup="buscarArete()" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Ej. 1409600001"  <?php if($bloqueo) echo "readonly";?> autofocus>
+                                                <input class="form-control" maxlength="10" id="cap_are" autocomplete="off"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder="Ej. 1409600001"  <?php if($bloqueo) echo "readonly";?> autofocus>
                                             </div>
                                             <div class="col-xs-2">
                                                 <label class="control-label" for="botonOk">&nbsp;</label>
@@ -93,7 +98,7 @@ if($model->isNewRecord){
                                                 "width"=>"10%",
                                             ],
                                             'value'=>function($info){
-                                                return $info->r28_numero;
+                                                return \app\models\ExportacionAretes::findOne($info->r28_id)->r28_numero;
                                             },
 
                                         ],
@@ -104,8 +109,14 @@ if($model->isNewRecord){
                                                 "width"=>"10%",
                                             ],
                                             'value'=>function($info){
-                                                return $info->r28_tb;
+                                                if($info->r29_resultado==1){
+                                                    return '<i id="yes" class="fa fa-check" aria-hidden="true" style="color: green; font-size: 25px; display: none;"></i>';
+                                                }else{
+                                                    return '<i id="no" class="fa fa-close" aria-hidden="true" style="color: red; font-size: 25px; display: none;"></i>';
+                                                }
+
                                             },
+                                            'format' => 'html'
 
                                         ],
                                         [
@@ -115,7 +126,7 @@ if($model->isNewRecord){
                                                 "width"=>"10%",
                                             ],
                                             'value'=>function($info){
-                                                return $info->r28_tb;
+                                                return \app\models\ExportacionAretes::findOne($info->r28_id)->r28_tb;
                                             },
 
                                         ],
@@ -126,7 +137,7 @@ if($model->isNewRecord){
                                                 "width"=>"10%",
                                             ],
                                             'value'=>function($info){
-                                                return $info->r28_br;
+                                                return \app\models\ExportacionAretes::findOne($info->r28_id)->r28_br;
                                             },
 
                                         ],
@@ -137,7 +148,7 @@ if($model->isNewRecord){
                                                 "width"=>"10%",
                                             ],
                                             'value'=>function($info){
-                                                return $info->r28_br;
+                                                return \app\models\Upp::findOne(\app\models\Exportacion::findOne(\app\models\ExportacionAretes::findOne($info->r28_id)->p11_id)->r01_origen)->r01_clave;
                                             },
 
                                         ],
@@ -148,7 +159,7 @@ if($model->isNewRecord){
                                                 "width"=>"10%",
                                             ],
                                             'value'=>function($info){
-                                                return $info->r28_br;
+                                                return \app\models\Exportacion::findOne(\app\models\ExportacionAretes::findOne($info->r28_id)->p11_id)->p11_guia;
                                             },
 
                                         ],
@@ -161,7 +172,7 @@ if($model->isNewRecord){
                                             'value' => function($info) {
                                                 return Html::a('<span class="glyphicon glyphicon-trash"></span>',false, [
                                                     'class'=>'ajaxDelete',
-                                                    'url'=> \yii\helpers\Url::toRoute(['exportacion/deletearete','id'=>$info->r28_id]),
+                                                    'url'=> \yii\helpers\Url::toRoute(['solicitudes-exportaciones/deletearete','id'=>$info->r28_id]),
                                                     'grid'=>'tabla_aretes',
                                                     'param'=>null,
                                                     'title' => Yii::t('yii', 'Delete')]);

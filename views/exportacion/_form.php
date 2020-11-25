@@ -22,14 +22,12 @@ if($model->isNewRecord){
     $bloqueo = false;
 }else{
     $unidades_destino = \yii\helpers\Url::to(['upplisterror']);
-    $editando = $model->p12_id;
+    $editando = $model->p11_id;
     $visible = true;
     $aretes = \app\models\Exportacion::getAretesSolicitud($editando);
 
-    if($model->p12_estatus_internacion==0)
-        $bloqueo = false;
-    else
-        $bloqueo = true;
+    $bloqueo = false;
+
 }
 ?>
     <div class="panel panel-primary" id="panel-primary">
@@ -56,7 +54,10 @@ if($model->isNewRecord){
                                             $useri = \app\models\PerfilUsuario::getPerfil(Yii::$app->user->getId());
                                             $user = $useri->a02_nombre;
                                         ?>
-                                        <?= $form->field($model, 'p11_usuAlta')->textInput(['maxlength' => true, 'value'=> ''.$user, 'readonly'=> true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
+                                        <label >Solicitante</label>
+                                        <br>
+                                        <input class="form-control" value="<?=$user?>" style="margin-left: 2px; 2px; text-align:left" readonly >
+                                        <?= $form->field($model, 'p11_usuAlta')->hiddenInput(['maxlength' => true, 'value'=> ''.Yii::$app->user->getId(), 'readonly'=> true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off'])->label(false) ?>
                                     </div>
 
                                     <div class="col-md-6">
@@ -207,21 +208,7 @@ if($model->isNewRecord){
                                                 <br>
                                                 <input class="form-control"  id="destino_estatus" style="margin-left: 2px; 2px; text-align:left" readonly>
                                             </div>
-                                            <!--<div class="col-md-2">
-                                                <label>Zona</label>
-                                                <br>
-                                                <input class="form-control"  id="destino_zona" style="margin-left: 2px; 2px; text-align:left" readonly>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Estatus SENASICA</label>
-                                                <br>
-                                                <input class="form-control"  id="destino_senasica" style="margin-left: 2px; 2px; text-align:left" readonly>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Estatus USDA</label>
-                                                <br>
-                                                <input class="form-control"  id="destino_usda" style="margin-left: 2px; 2px; text-align:left" readonly>
-                                            </div>-->
+
                                         </div>
 
                                     </div>

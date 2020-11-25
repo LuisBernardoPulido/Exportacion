@@ -43,9 +43,9 @@ class Exportacion extends \yii\db\ActiveRecord
     {
         return [
             [['p11_guia'], 'required'],
-            [['p11_guia', 'r01_origen', 'r01_destino', 'c01_id', 'p11_motivo', 'p11_especie', 'p11_usuAlta', 'p11_usuMod'], 'integer'],
+            [[ 'r01_origen', 'r01_destino', 'c01_id', 'p11_especie', 'p11_usuAlta', 'p11_usuMod'], 'integer'],
             [['p11_fecha', 'p11_fecAlta', 'p11_fecMod'], 'safe'],
-            [['p11_aux'], 'string', 'max' => 50],
+            [['p11_aux', 'p11_motivo', 'p11_guia'], 'string', 'max' => 50],
             [['r01_origen'], 'exist', 'skipOnError' => true, 'targetClass' => Upp::className(), 'targetAttribute' => ['r01_origen' => 'r01_id']],
             [['r01_destino'], 'exist', 'skipOnError' => true, 'targetClass' => Upp::className(), 'targetAttribute' => ['r01_destino' => 'r01_id']],
             [['c01_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ganaderos::className(), 'targetAttribute' => ['c01_id' => 'c01_id']],
@@ -83,7 +83,7 @@ class Exportacion extends \yii\db\ActiveRecord
     }
     public static function getAretesSolicitud($p12){
         $aretes = ExportacionAretes::find()
-            ->Where('p12_id=:id', [':id'=>$p12]);
+            ->Where('p11_id=:id', [':id'=>$p12]);
 
         $dataprovider = new ActiveDataProvider([
             'query' => $aretes,
