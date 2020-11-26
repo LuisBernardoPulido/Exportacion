@@ -45,7 +45,7 @@ if($model->isNewRecord){
                 <div class="row" >
                     <div class="col-md-12">
                         <div class="panel panel-info" style="display: block">
-                            <div class="panel-heading" id="panel-info-header">Unidad de origen</div>
+                            <div class="panel-heading" id="panel-info-header">Unidad de destino</div>
                             <div class="panel-body">
 
                                 <div class="row">
@@ -116,7 +116,7 @@ if($model->isNewRecord){
                 <div class="row" >
                     <div class="col-md-12">
                         <div class="panel panel-info" style="display: block">
-                            <div class="panel-heading" id="panel-info-header">Unidad de destino</div>
+                            <div class="panel-heading" id="panel-info-header">Unidad de origen</div>
                             <div class="panel-body">
 
                                 <div class="row">
