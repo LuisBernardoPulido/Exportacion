@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $unidad->r01_clave.' - '.$unidad->r01_nombre;
                 }
             ],
-            ['class' => 'yii\grid\ActionColumn'],
+           // ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

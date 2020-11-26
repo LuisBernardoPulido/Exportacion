@@ -177,14 +177,9 @@ function agregarArete(editando){
     var factura = document.getElementById('cap_factura').value;
     var especie = 1;
 
-    if(tb ==="" || br===""){
-        if(tb ===""){
-            mensajeErrorTexto("El arete no cuenta con folio TB");
-            limpiarArete();
-        }else{
-            mensajeErrorTexto("El arete no cuenta con folio BR");
-            limpiarArete();
-        }
+    if(tb === ""){
+        mensajeErrorTexto("El arete no cuenta con folio TB");
+        limpiarArete();
         document.getElementById('cap_edad').readOnly = false;
         $.pjax.reload({container: "#tabla_aretes", timeout: false});
     }else{
