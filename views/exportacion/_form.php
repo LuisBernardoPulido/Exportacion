@@ -54,9 +54,9 @@ if($model->isNewRecord){
                                             $useri = \app\models\PerfilUsuario::getPerfil(Yii::$app->user->getId());
                                             $user = $useri->a02_nombre;
                                         ?>
-                                        <label >Solicitante</label>
+                                        <label>Productor</label>
                                         <br>
-                                        <input class="form-control" value="<?=$user?>" style="margin-left: 2px; 2px; text-align:left" readonly >
+                                        <input class="form-control" value="VICTOR MANUEL CONTRERAS" style="margin-left: 2px; 2px; text-align:left" readonly >
                                         <?= $form->field($model, 'p11_usuAlta')->hiddenInput(['maxlength' => true, 'value'=> ''.Yii::$app->user->getId(), 'readonly'=> true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off'])->label(false) ?>
                                     </div>
 
@@ -71,7 +71,7 @@ if($model->isNewRecord){
 
                                             <label >&nbsp</label>
                                             <span class="input-group-btn">
-                                                <button type="button" onclick="abrirUnidades()" class="btn btn-info btn-flat col-xs-12" style="color: white; border-color: #942626; background-color: #942626";">Agregar Unidad</button>
+                                                <button type="button" onclick="abrirUnidades()" class="btn btn-info btn-flat col-xs-12" style="color: white; border-color: #942626; background-color: #942626";" disabled>Agregar Unidad</button>
                                             </span>
                                         </div>
                                     </div>
@@ -133,7 +133,7 @@ if($model->isNewRecord){
 
                                             <label >&nbsp</label>
                                             <span class="input-group-btn">
-                                                <button type="button" onclick="abrirProductores()" class="btn btn-info btn-flat col-xs-12" style="color: white; border-color: #942626; background-color: #942626";">Agregar Productor</button>
+                                                <button type="button" onclick="abrirProductores()" class="btn btn-info btn-flat col-xs-12" style="color: white; border-color: #942626; background-color: #942626";" disabled>Agregar Productor</button>
                                             </span>
                                         </div>
                                     </div>
@@ -149,7 +149,7 @@ if($model->isNewRecord){
 
                                             <label >&nbsp</label>
                                             <span class="input-group-btn">
-                                                <button type="button" onclick="abrirUnidades()" class="btn btn-info btn-flat col-xs-12" style="color: white; border-color: #942626; background-color: #942626";">Agregar Unidad</button>
+                                                <button type="button" onclick="abrirUnidades()" class="btn btn-info btn-flat col-xs-12" style="color: white; border-color: #942626; background-color: #942626";" disabled>Agregar Unidad</button>
                                             </span>
                                         </div>
                                     </div>
@@ -245,9 +245,7 @@ if($model->isNewRecord){
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <?= $form->field($model, 'p11_motivo')->textInput(['maxlength' => true, 'value'=> 'EXPORTACIÓN', 'readonly'=> true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
-                                    </div>
+
                                     <div class="col-md-4">
                                         <?= $form->field($model, 'p11_aux')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
                                     </div>

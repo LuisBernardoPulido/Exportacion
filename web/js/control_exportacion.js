@@ -124,35 +124,43 @@ function buscarArete(){
             dataType: "json",
             success: function (res) {
                 if(res[0]!=false){
-                    document.getElementById('cap_edad').value = res[0];
-                    document.getElementById('cap_raza').value = res[1];
-                    document.getElementById('cap_raza2').value = res[2];
-                    document.getElementById('cap_sexo').value = res[3];
-                    document.getElementById('cap_tb').value = res[5];
-                    document.getElementById('cap_res_tb').value = res[4];
-                    document.getElementById('cap_br').value = res[7];
-                    document.getElementById('cap_res_br').value = res[6];
 
-                    edad_def = {"arete": arete, "especie": especie};
-                    $.ajax({
-                        type: 'GET',
-                        url: 'index.php?r=exportacion/getfechadef',
-                        data: edad_def,
-                        success: function (existencia) {
-                            if(existencia==1){
-                                document.getElementById('cap_edad').readOnly = true;
-                            }else{
-                                document.getElementById('cap_edad').readOnly = false;
+                        document.getElementById('cap_edad').value = res[0];
+                        document.getElementById('cap_raza').value = res[1];
+                        document.getElementById('cap_raza2').value = res[2];
+                        document.getElementById('cap_sexo').value = res[3];
+                        document.getElementById('cap_tb').value = res[5];
+                        document.getElementById('cap_res_tb').value = res[4];
+                        document.getElementById('cap_br').value = res[7];
+                        document.getElementById('cap_res_br').value = res[6];
+                        document.getElementById('cap_tb').readOnly = true;
+                        document.getElementById('cap_res_tb').disabled = true;
+                        document.getElementById('cap_res_br').disabled = true;
+                        document.getElementById('cap_br').readOnly = true;
+
+                        edad_def = {"arete": arete, "especie": especie};
+                        $.ajax({
+                            type: 'GET',
+                            url: 'index.php?r=exportacion/getfechadef',
+                            data: edad_def,
+                            success: function (existencia) {
+                                if(existencia==1){
+                                    document.getElementById('cap_edad').readOnly = true;
+                                }else{
+                                    document.getElementById('cap_edad').readOnly = false;
+                                }
+
                             }
-                        }
-                    });
+                        });
+
+
                 }else{
                     document.getElementById('cap_edad').readOnly = false;
                 }
             }
         });
     }else if(arete.length==10 && !especie){
-        //mensajeErrorTexto("No se ha seleccionado una especie");
+
     }
 }
 
@@ -169,37 +177,49 @@ function agregarArete(editando){
     var factura = document.getElementById('cap_factura').value;
     var especie = 1;
 
-    if(validarCampos(numero, edad, raza, sexo, especie)){
-        parametro = {"numero": numero, "especie":especie, "solicitud":editando};
-        $.ajax({
-            type: 'GET',
-            url: 'index.php?r=exportacion/existearete',
-            data: parametro,
-            success: function (res2) {
-                if(res2==0){
-                    parametro = {"numero": numero, "edad":edad, "raza":raza, "raza2":raza2, "sexo":sexo, "especie":especie, "solicitud":editando, "tb":tb, "br":br, "tb_res":tb_res, "br_res":br_res, "factura":factura};
-                    $.ajax({
-                        type: 'GET',
-                        url: 'index.php?r=exportacion/agregararete',
-                        data: parametro,
-                        success: function (res2) {
-                            if(res2==1){
-                                limpiarArete();
-                            }else{
-                                alert(res2)
-                                mensajeErrorTexto("Error.");
-                            }
-                            $.pjax.reload({container: "#tabla_aretes", timeout: false});
-                        }
-                    });
-                }else{
-                    mensajeErrorTexto("El arete ya existe.");
-                    limpiarArete();
-                }
-                $.pjax.reload({container: "#tabla_aretes", timeout: false});
+    if(tb ==="" || br===""){
+        if(tb ===""){
+            mensajeErrorTexto("El arete no cuenta con folio TB");
+            limpiarArete();
+        }else{
+            mensajeErrorTexto("El arete no cuenta con folio BR");
+            limpiarArete();
+        }
+        document.getElementById('cap_edad').readOnly = false;
+        $.pjax.reload({container: "#tabla_aretes", timeout: false});
+    }else{
+        if(validarCampos(numero, edad, raza, sexo, especie)){
+            parametro = {"numero": numero, "especie":especie, "solicitud":editando};
+            $.ajax({
+                type: 'GET',
+                url: 'index.php?r=exportacion/existearete',
+                data: parametro,
+                success: function (res2) {
+                    if(res2==0){
+                        parametro = {"numero": numero, "edad":edad, "raza":raza, "raza2":raza2, "sexo":sexo, "especie":especie, "solicitud":editando, "tb":tb, "br":br, "tb_res":tb_res, "br_res":br_res, "factura":factura};
+                        $.ajax({
+                            type: 'GET',
+                            url: 'index.php?r=exportacion/agregararete',
+                            data: parametro,
+                            success: function (res2) {
+                                if(res2==1){
+                                    limpiarArete();
+                                }else{
 
-            }
-        });
+                                    mensajeErrorTexto("Error.");
+                                }
+                                $.pjax.reload({container: "#tabla_aretes", timeout: false});
+                            }
+                        });
+                    }else{
+                        mensajeErrorTexto("El arete ya existe.");
+                        limpiarArete();
+                    }
+                    $.pjax.reload({container: "#tabla_aretes", timeout: false});
+
+                }
+            });
+        }
     }
 }
 
@@ -251,13 +271,14 @@ function limpiarRuta() {
 
 function limpiarArete(){
     document.getElementById('cap_are').value = '';
-    //document.getElementById('cap_edad').value = '';
-    //document.getElementById('cap_raza').value = '';
     document.getElementById('cap_raza2').value = '';
     document.getElementById('cap_tb').value = '';
     document.getElementById('cap_br').value = '';
     document.getElementById('cap_factura').value = '';
-    //document.getElementById('cap_sexo').value = '';
+    document.getElementById('cap_tb').readOnly = false;
+    document.getElementById('cap_res_tb').disabled = false;
+    document.getElementById('cap_res_br').disabled = false;
+    document.getElementById('cap_br').readOnly = false;
 }
 
 function llenarCamposOrigen(prod, est, lat, long, zona, senasica, usda, id_senasica){

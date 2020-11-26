@@ -25,9 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'attribute'=>'r01_origen',
-                /*'contentOptions' => [
-                    'width'=>'20%',
-                ],*/
                 'value'=>function($model){
                     $unidad = \app\models\Upp::findOne($model->r01_origen);
                     return $unidad->r01_clave.' - '.$unidad->r01_nombre;

@@ -375,7 +375,7 @@ WHERE r04.c01_id=(select c01_id from c01_ganaderos where user_id='".$usuario."')
                $arr[4] = null;
                $arr[5] = "";
            }
-           //
+
             //Obtenemos el ultimo BR con su resultado
             $br = \app\models\BrucelosisAretes::findBySql("SELECT * FROM r07_brucelosis_aretes WHERE r02_id = ".$arete->r02_id." ORDER BY r07_frealizacion DESC LIMIT 1")->one();
             if($br){

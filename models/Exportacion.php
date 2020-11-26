@@ -42,7 +42,7 @@ class Exportacion extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['p11_guia'], 'required'],
+            [['p11_guia', 'r01_destino','r01_origen'], 'required'],
             [[ 'r01_origen', 'r01_destino', 'c01_id', 'p11_especie', 'p11_usuAlta', 'p11_usuMod'], 'integer'],
             [['p11_fecha', 'p11_fecAlta', 'p11_fecMod'], 'safe'],
             [['p11_aux', 'p11_motivo', 'p11_guia'], 'string', 'max' => 50],
