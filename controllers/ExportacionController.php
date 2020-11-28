@@ -17,6 +17,7 @@ use app\models\InternacionAretes;
 use app\models\InternacionRequisitos;
 use app\models\InternacionRutaPvi;
 use app\models\LocalidadesZac;
+use app\models\Medicos;
 use app\models\Municipios;
 use app\models\PropietarioUnidad;
 use app\models\Resultados;
@@ -292,7 +293,7 @@ LIMIT 20
         }else
             return -1;
     }
-    public function actionAgregararete($numero, $edad, $raza, $raza2, $sexo, $especie, $solicitud, $tb, $br, $tb_res, $br_res, $factura){
+    public function actionAgregararete($numero, $edad, $raza, $raza2, $sexo, $especie, $solicitud, $tb, $tb_fecha, $tb_medico, $br, $tb_res, $br_res, $factura){
         $arete_int = new ExportacionAretes();
         $busqueda = Aretes::find()
             ->where('r02_numero=:num', [':num'=>$numero])
@@ -315,6 +316,8 @@ LIMIT 20
             $arete_int->r28_sexo = $sexo;
             $arete_int->r28_especie = $especie;
             $arete_int->r28_tb = $tb;
+            $arete_int->r28_tbfecha = $tb_fecha;
+            $arete_int->r28_tbmedico = $tb_medico;
             $arete_int->r28_resultadotb = $tb_res;
             $arete_int->r28_resultadobr = $br_res;
             $arete_int->r28_br = $br;
@@ -371,9 +374,24 @@ WHERE r04.c01_id=(select c01_id from c01_ganaderos where user_id='".$usuario."')
            if($tb){
                $arr[4] = $tb->r06_diagnostico;
                $arr[5] = Tuberculosis::findOne($tb->p03_tb)->p03_folio;
+               $arr[8] =  $tb->r06_frealizacion;
+               $arr[9] = Tuberculosis::findOne($tb->p03_tb)->c05_id;
+
            }else{
-               $arr[4] = null;
-               $arr[5] = "";
+               //No tiene folio de tb, busquemos la última prueba de la UPP y asignemos ese folio
+               $tb_aux = \app\models\Tuberculosis::findBySql("SELECT * FROM p03_tb WHERE r01_id = ".$arete->r01_id." ORDER BY p03_finyeccion DESC LIMIT 1")->one();
+               if($tb_aux){
+                   $arr[4] = 4;
+                   $arr[5] = $tb_aux->p03_folio;
+                   $arr[8] =  $tb_aux->p03_finyeccion;
+                   $arr[9] = $tb_aux->c05_id;
+               }else{
+                   $arr[4] = null;
+                   $arr[5] = "";
+                   $arr[8] = "";
+                   $arr[9] = "";
+               }
+
            }
 
             //Obtenemos el ultimo BR con su resultado
@@ -429,8 +447,3 @@ WHERE r04.c01_id=(select c01_id from c01_ganaderos where user_id='".$usuario."')
     }
 
 }
-
-
-
-
-//

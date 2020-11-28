@@ -231,13 +231,13 @@ if($model->isNewRecord){
                                             <?= $form->field($model, 'p11_fecha')->widget(DatePicker::classname(), [
                                                 'value' => date('d/M/Y'),
                                                 'type' => DatePicker::TYPE_COMPONENT_APPEND,
-                                                'pluginOptions' => ['autoclose' => true, 'format' => 'yyyy-mm-dd', 'todayHighlight'=>true, 'endDate'=>'+5d', 'startDate'=>'0d',]
+                                                'pluginOptions' => ['autoclose' => true, 'format' => 'yyyy-mm-dd', 'todayHighlight'=>true]
                                             ]) ?>
                                     </div>
                                     <div class="col-md-4">
                                             <?= $form->field($model, 'p11_especie')->widget(\kartik\widgets\Select2::className(),[
                                                 'data' => \app\models\Especies::getAllEspecies(),
-                                                'options' => ['placeholder' => 'Seleccionar especie...', 'id'=>'especc', 'disabled'=>$bloqueo, 'onchange'=>'buscarArete()'],
+                                                'options' => ['selection'=> 1,'id'=>'especc', 'disabled'=>true, 'onchange'=>'buscarArete()'],
                                                 'pluginOptions' => [
                                                     'allowClear' => true
                                                 ],
@@ -248,6 +248,9 @@ if($model->isNewRecord){
 
                                     <div class="col-md-4">
                                         <?= $form->field($model, 'p11_aux')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <?= $form->field($model, 'p11_zoo')->textInput(['maxlength' => true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off']) ?>
                                     </div>
                                 </div>
 
@@ -300,18 +303,28 @@ if($model->isNewRecord){
                                                 </div>
                                                 <br>
                                                 <div class="row">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-6">
                                                         <div class="panel panel-info" style="display: block">
                                                             <div class="panel-heading" id="panel-info-header">TB</div>
                                                             <div class="panel-body">
-                                                                    <div class="col-md-6">
+                                                                    <div class="col-md-2">
                                                                         <label>Folio</label><br>
-                                                                        <input class="form-control" maxlength="10" id="cap_tb" autocomplete="off" onkeyup="buscarTBFolio()" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder=""  <?php if($bloqueo) echo "readonly";?> autofocus>
+                                                                        <input class="form-control" maxlength="10" id="cap_tb" autocomplete="off" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder=""  <?php if($bloqueo) echo "readonly";?> autofocus>
                                                                     </div>
-                                                                    <div class="col-md-6">
+                                                                    <div class="col-md-3">
                                                                         <label>Resultado</label><br>
                                                                         <?=
                                                                         Html::dropDownList("", null, [ '4'=>'NEGATIVO', '5'=>'SOSPECHOSO', '6'=>'REACTIVO', '7'=>'*'], ["class" => "form-control", "onkeyup"=> "buscarTBResultadoFolio()", "id"=>"cap_res_tb"]);
+                                                                        ?>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <label>Fecha</label><br>
+                                                                        <input  class="form-control" maxlength="10" id="cap_tb_fecha" autocomplete="off" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder=""  <?php if($bloqueo) echo "readonly";?> autofocus>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <label>Médico</label><br>
+                                                                        <?=
+                                                                        Html::dropDownList("", null, \app\models\Medicos::getAllMedicos(), ["placeholder" => "Selecciona un médico ...", "class" => "form-control", "id"=>"cap_tb_medico"]);
                                                                         ?>
                                                                     </div>
 
@@ -325,7 +338,7 @@ if($model->isNewRecord){
                                                             <div class="panel-body">
                                                                 <div class="col-md-6">
                                                                     <label>Folio</label><br>
-                                                                    <input class="form-control" maxlength="10" id="cap_br" autocomplete="off" onkeyup="buscarBRFolio()" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder=""  <?php if($bloqueo) echo "readonly";?> autofocus>
+                                                                    <input class="form-control" maxlength="10" id="cap_br" autocomplete="off" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" placeholder=""  <?php if($bloqueo) echo "readonly";?> autofocus>
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <label>Resultado</label><br>
@@ -420,6 +433,34 @@ if($model->isNewRecord){
                                                     ],
                                                     'value'=>function($info){
                                                         return $info->r28_tb;
+                                                    },
+
+                                                ],
+                                                [
+                                                    'label'=>'Fecha TB',
+                                                    'contentOptions'=>[
+                                                        "align"=>"center",
+                                                        "width"=>"10%",
+                                                    ],
+                                                    'value'=>function($info){
+                                                        return $info->r28_tbfecha;
+                                                    },
+
+                                                ],
+                                                [
+                                                    'label'=>'Clave médico',
+                                                    'contentOptions'=>[
+                                                        "align"=>"center",
+                                                        "width"=>"10%",
+                                                    ],
+                                                    'value'=>function($info){
+                                                        $med = \app\models\Medicos::findOne($info->r28_tbmedico);
+                                                        if($med){
+                                                            return $med->c05_clave;
+                                                        }else{
+                                                            return "";
+                                                        }
+
                                                     },
 
                                                 ],

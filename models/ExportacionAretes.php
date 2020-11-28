@@ -16,6 +16,8 @@ use Yii;
  * @property string $r28_raza
  * @property string $r28_raza2
  * @property string $r28_sexo
+ * @property string $r28_tbfecha
+ * @property integer $r28_tbmedico
  * @property string $r28_tb
  * @property string $r28_br
  * @property string $r28_resultadotb
@@ -45,9 +47,9 @@ class ExportacionAretes extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['r28_especie', 'p11_id', 'r28_usuAlta', 'r02_id', 'r28_usuMod'], 'integer'],
+            [['r28_especie', 'p11_id', 'r28_usuAlta', 'r02_id', 'r28_usuMod', 'r28_tbmedico'], 'integer'],
             [['r28_numero'], 'required'],
-            [['r28_fecAlta', 'r28_fecMod'], 'safe'],
+            [['r28_tbfecha', 'r28_fecAlta', 'r28_fecMod'], 'safe'],
             [['r28_numero', 'r28_edad', 'r28_raza', 'r28_raza2', 'r28_sexo', 'r28_tb', 'r28_br', 'r28_resultadotb', 'r28_resultadobr', 'r28_factura', 'r28_aux'], 'string', 'max' => 50],
             //[['r02_id'], 'exist', 'skipOnError' => true, 'targetClass' => ExportacionAretes::className(), 'targetAttribute' => ['r02_id' => 'r02_id']],
         ];
@@ -70,6 +72,8 @@ class ExportacionAretes extends \yii\db\ActiveRecord
             'r28_sexo' => 'Sexo',
             'r28_tb' => 'TB',
             'r28_br' => 'BR',
+            'r28_tbfecha' => 'Fecha',
+            'r28_tbmedico' => 'Médico',
             'r28_resultadotb' => 'R28 Resultadotb',
             'r28_resultadobr' => 'R28 Resultadobr',
             'r28_factura' => 'Factura',

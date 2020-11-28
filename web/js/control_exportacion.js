@@ -124,16 +124,19 @@ function buscarArete(){
             dataType: "json",
             success: function (res) {
                 if(res[0]!=false){
-
                         document.getElementById('cap_edad').value = res[0];
                         document.getElementById('cap_raza').value = res[1];
                         document.getElementById('cap_raza2').value = res[2];
                         document.getElementById('cap_sexo').value = res[3];
                         document.getElementById('cap_tb').value = res[5];
+                        document.getElementById('cap_tb_fecha').value = res[8];
+                        document.getElementById('cap_tb_medico').value = res[9];
                         document.getElementById('cap_res_tb').value = res[4];
                         document.getElementById('cap_br').value = res[7];
                         document.getElementById('cap_res_br').value = res[6];
                         document.getElementById('cap_tb').readOnly = true;
+                        document.getElementById('cap_tb_fecha').readOnly = true;
+                        document.getElementById('cap_tb_medico').disabled = true;
                         document.getElementById('cap_res_tb').disabled = true;
                         document.getElementById('cap_res_br').disabled = true;
                         document.getElementById('cap_br').readOnly = true;
@@ -171,6 +174,8 @@ function agregarArete(editando){
     var raza2 = document.getElementById('cap_raza2').value;
     var sexo = document.getElementById('cap_sexo').value;
     var tb = document.getElementById('cap_tb').value;
+    var tb_fecha = document.getElementById('cap_tb_fecha').value;
+    var tb_medico = document.getElementById('cap_tb_medico').value;
     var tb_res = document.getElementById('cap_res_tb').value;
     var br_res = document.getElementById('cap_res_br').value;
     var br = document.getElementById('cap_br').value;
@@ -191,7 +196,7 @@ function agregarArete(editando){
                 data: parametro,
                 success: function (res2) {
                     if(res2==0){
-                        parametro = {"numero": numero, "edad":edad, "raza":raza, "raza2":raza2, "sexo":sexo, "especie":especie, "solicitud":editando, "tb":tb, "br":br, "tb_res":tb_res, "br_res":br_res, "factura":factura};
+                        parametro = {"numero": numero, "edad":edad, "raza":raza, "raza2":raza2, "sexo":sexo, "especie":especie, "solicitud":editando, "tb":tb, "tb_fecha":tb_fecha, "tb_medico":tb_medico, "br":br, "tb_res":tb_res, "br_res":br_res, "factura":factura};
                         $.ajax({
                             type: 'GET',
                             url: 'index.php?r=exportacion/agregararete',
@@ -200,7 +205,7 @@ function agregarArete(editando){
                                 if(res2==1){
                                     limpiarArete();
                                 }else{
-
+                                    alert(res2)
                                     mensajeErrorTexto("Error.");
                                 }
                                 $.pjax.reload({container: "#tabla_aretes", timeout: false});
@@ -266,14 +271,22 @@ function limpiarRuta() {
 
 function limpiarArete(){
     document.getElementById('cap_are').value = '';
+    document.getElementById('cap_edad').value = '';
     document.getElementById('cap_raza2').value = '';
+    document.getElementById('cap_raza').value = 46;
+    document.getElementById('cap_sexo').value = '';
     document.getElementById('cap_tb').value = '';
+    document.getElementById('cap_tb_fecha').value = '';
+    document.getElementById('cap_tb_medico').value = '';
     document.getElementById('cap_br').value = '';
-    document.getElementById('cap_factura').value = '';
+
     document.getElementById('cap_tb').readOnly = false;
+    document.getElementById('cap_tb_fecha').readOnly = false;
+    document.getElementById('cap_tb_medico').disabled = false;
     document.getElementById('cap_res_tb').disabled = false;
     document.getElementById('cap_res_br').disabled = false;
     document.getElementById('cap_br').readOnly = false;
+    document.getElementById('cap_edad').readOnly = false;
 }
 
 function llenarCamposOrigen(prod, est, lat, long, zona, senasica, usda, id_senasica){

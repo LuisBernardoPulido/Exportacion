@@ -15,6 +15,7 @@ use yii\data\ActiveDataProvider;
  * @property integer $r01_destino
  * @property integer $c01_id
  * @property integer $p11_motivo
+ * @property string $p11_zoo
  * @property integer $p11_especie
  * @property string $p11_aux
  * @property integer $p11_usuAlta
@@ -45,7 +46,7 @@ class Exportacion extends \yii\db\ActiveRecord
             [['p11_guia', 'r01_destino','r01_origen'], 'required'],
             [[ 'r01_origen', 'r01_destino', 'c01_id', 'p11_especie', 'p11_usuAlta', 'p11_usuMod'], 'integer'],
             [['p11_fecha', 'p11_fecAlta', 'p11_fecMod'], 'safe'],
-            [['p11_aux', 'p11_motivo', 'p11_guia'], 'string', 'max' => 50],
+            [['p11_aux', 'p11_motivo', 'p11_guia', 'p11_zoo'], 'string', 'max' => 50],
             [['r01_origen'], 'exist', 'skipOnError' => true, 'targetClass' => Upp::className(), 'targetAttribute' => ['r01_origen' => 'r01_id']],
             [['r01_destino'], 'exist', 'skipOnError' => true, 'targetClass' => Upp::className(), 'targetAttribute' => ['r01_destino' => 'r01_id']],
             [['c01_id'], 'exist', 'skipOnError' => true, 'targetClass' => Ganaderos::className(), 'targetAttribute' => ['c01_id' => 'c01_id']],
@@ -68,6 +69,7 @@ class Exportacion extends \yii\db\ActiveRecord
             'p11_especie' => 'Especie',
             'p11_aux' => 'Número de cabezas',
             'p11_usuAlta' => 'Solicitante',
+            'p11_zoo' => 'Certificado zoosanitario',
             'p11_fecAlta' => 'Fecha de Alta',
             'p11_usuMod' => 'Usuario de Modificacion',
             'p11_fecMod' => 'Fecha de Modificacion',
