@@ -282,8 +282,9 @@ LIMIT 20
         return json_encode($arr);
     }
     public function actionBuscarrelacion($usuario){
-        $prod = Ganaderos::find()->where('user_id=:usr', [':usr'=>$usuario])->one();
-        //return sizeof($prod);
+        //$prod = Ganaderos::find()->where('user_id=:usr', [':usr'=>$usuario])->one();
+        $prod = Ganaderos::find()->where('c01_id=:usr', [':usr'=>$usuario])->one();
+
         if($prod){
             $relaciones = PropietarioUnidad::find()->where('c01_id=:id',[':id'=>$prod->c01_id])->count();
             if($relaciones=='0')
@@ -293,6 +294,7 @@ LIMIT 20
         }else
             return -1;
     }
+
     public function actionAgregararete($numero, $edad, $raza, $raza2, $sexo, $especie, $solicitud, $tb, $tb_fecha, $tb_medico, $br, $tb_res, $br_res, $factura){
         $arete_int = new ExportacionAretes();
         $busqueda = Aretes::find()

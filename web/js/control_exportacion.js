@@ -23,7 +23,7 @@ $(document).ready(function () {
 });
 
 function buscarUnidades(){
-    var usuario = document.getElementById('usuario').value;
+    var usuario = document.getElementById('prod_origen').value;
     if(usuario){
         parametro = {"usuario": usuario};
         $.ajax({
@@ -33,7 +33,6 @@ function buscarUnidades(){
             //dataType: "json",
             success: function (res) {
                 if (res!=-1) {
-                    //return location.href= "index.php?r=ganaderos/update&id="+res+"";
                     return location.href= "index.php?r=unidades/create";
                 }
             }
@@ -541,8 +540,7 @@ function descargarArchivo(id, nom) {
     });
 }
 function cargarUnidadesOrigen() {
-    //var prod = document.getElementById('prod_origen').value;
-    var prod = 2
+    var prod = document.getElementById('prod_origen').value;
 
     parametro={"prod":prod};
     $.ajax({
@@ -550,18 +548,7 @@ function cargarUnidadesOrigen() {
         url: 'index.php?r=exportacion/getunidades',
         data: parametro,
         success:function(respuesta){
-            document.getElementById('id_origen').innerHTML=respuesta;
-
-            $.ajax({
-                type: 'GET',
-                url: 'index.php?r=exportacion/productororigenunico',
-                data: parametro,
-                success:function(respuesta){
-                    if(respuesta){
-                        $('#id_origen').val(respuesta).trigger('change');
-                    }
-                }
-            });
+            document.getElementById('id_origen').innerHTML = respuesta;
         }
     });
 }
@@ -575,9 +562,7 @@ function cargarUnidadesDestino() {
         data: parametro,
         success:function(respuesta){
             document.getElementById('id_destino').innerHTML=respuesta;
-
             //ver si sólo tiene una unidad para ponerla por default
-            //parametro={"prod":prod};
             $.ajax({
                 type: 'GET',
                 url: 'index.php?r=exportacion/productororigenunico',

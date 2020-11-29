@@ -49,19 +49,17 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/control_main.js', ['dep
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <!-- The user image in the navbar-->
-
-                            <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                            <span class="hidden-xs">Administrador</span>
+                            <span class="hidden-xs">
+                                <?=\app\models\PerfilUsuario::find()->where('a01_id=:user', [':user'=>Yii::$app->user->getId()])->one()->a02_nombre?>
+                            </span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
 
-
                                 <p>
-                                    Administrador
-                                    <small>Miembro desde Junio 2020</small>
+                                    <?=\app\models\PerfilUsuario::find()->where('a01_id=:user', [':user'=>Yii::$app->user->getId()])->one()->a02_nombre?>
+                                    <?=\app\models\PerfilUsuario::find()->where('a01_id=:user', [':user'=>Yii::$app->user->getId()])->one()->a02_apaterno?>
                                 </p>
                             </li>
                             <!-- Menu Body -->
@@ -85,7 +83,11 @@ $this->registerJsFile(Yii::$app->request->baseUrl . '/js/control_main.js', ['dep
                                     <a href="#" class="btn btn-default btn-flat">Mi perfil</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">Salir</a>
+                                    <?= Html::a(
+                                        'Salir',
+                                        ['/site/logout'],
+                                        ['data-method' => 'post', 'class' => 'btn btn-default btn-flat']
+                                    ) ?>
                                 </div>
                             </li>
                         </ul>

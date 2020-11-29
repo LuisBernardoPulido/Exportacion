@@ -13,8 +13,9 @@ $this->registerCssFile('css/estilo_exportacion.css');
 /* @var $form yii\widgets\ActiveForm */
 
 if($model->isNewRecord){
-    //$unidades_destino = \yii\helpers\Url::to(['unidadesdestino', 'prod'=>Yii::$app->user->getId()]);
-    $unidades_destino = \yii\helpers\Url::to(['unidadesdestinotemp', 'prod'=>Yii::$app->user->getId()]);
+
+    $unidades_destino = \yii\helpers\Url::to(['unidadesdestino', 'prod'=>\app\models\PerfilUsuario::getPerfil(Yii::$app->user->getId())->c01_id]);
+    //$unidades_destino = \yii\helpers\Url::to(['unidadesdestinotemp', 'prod'=>Yii::$app->user->getId()]);
     $editando = -1;
     $visible = false;
     $aretes = \app\models\Exportacion::getAretesNo();
@@ -38,6 +39,7 @@ if($model->isNewRecord){
                     'options' => ['enctype'=>'multipart/form-data']
                 ]); ?>
                 <input type="hidden" id="usuario" value="<?=Yii::$app->user->getId()?>">
+                <input type="hidden" id="prod_origen" value="<?=\app\models\PerfilUsuario::getPerfil(Yii::$app->user->getId())->c01_id?>">
                 <input type="hidden" id="origen_id_senasica">
                 <input type="hidden" id="destino_id_senasica">
                 <input type="hidden" id="editando" value="<?=$editando?>">
@@ -56,8 +58,8 @@ if($model->isNewRecord){
                                         ?>
                                         <label>Productor</label>
                                         <br>
-                                        <input class="form-control" value="VICTOR MANUEL CONTRERAS" style="margin-left: 2px; 2px; text-align:left" readonly >
-                                        <?= $form->field($model, 'p11_usuAlta')->hiddenInput(['maxlength' => true, 'value'=> ''.Yii::$app->user->getId(), 'readonly'=> true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off'])->label(false) ?>
+                                        <input class="form-control" value="<?=\app\models\PerfilUsuario::getPerfil(Yii::$app->user->getId())->a02_nombre.' '.\app\models\PerfilUsuario::getPerfil(Yii::$app->user->getId())->a02_apaterno.' '.\app\models\PerfilUsuario::getPerfil(Yii::$app->user->getId())->a02_amaterno?>" style="margin-left: 2px; 2px; text-align:left" readonly >
+                                        <?= $form->field($model, 'p11_usuAlta')->hiddenInput(['maxlength' => true, 'value'=> ''.\app\models\PerfilUsuario::getPerfil(Yii::$app->user->getId())->c01_id, 'readonly'=> true, 'style'=>'text-transform:uppercase;', 'autocomplete'=>'off'])->label(false) ?>
                                     </div>
 
                                     <div class="col-md-6">
